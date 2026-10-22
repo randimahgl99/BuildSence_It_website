@@ -1,0 +1,389 @@
+/*
+ * Home hero + embedded client-logo marquee (mockup `bs-home-video-hero-2026`
+ * L13254-13390, `buildsense-home-hero-embedded-client-logos-2026` L13620,
+ * `#page-home .client-logo-*` L10676-11115).
+ *
+ * Values are the resolved result of the cascade, read from the rendered mockup
+ * at 24 viewports (AUDIT R1), desktop-first with the mockup's own breakpoints
+ * (900 / 768 / 620 / 600). The H1 is Georgia (not loaded; system serif), as in
+ * the mockup.
+ */
+
+/* ---- Hero shell ---- */
+.bs-home-hero {
+  box-sizing: border-box;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* vh first, svh second: order matters, so this stays out of utilities (R7) */
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--bs-hero-header-height, 82px) + 65px) 0 85px;
+  overflow: hidden;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-home-hero-video {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 50% 50%;
+  background-color: var(--color-page);
+  pointer-events: none;
+}
+
+.bs-home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(3, 8, 16, 0.84) 0%, rgba(3, 8, 16, 0.7) 30%, rgba(3, 8, 16, 0.4) 64%, rgba(3, 8, 16, 0.22) 100%),
+    linear-gradient(0deg, rgba(3, 8, 16, 0.55), transparent 27%, transparent 76%, rgba(3, 8, 16, 0.25));
+}
+
+.bs-home-hero-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 0;
+  width: min(1180px, calc(100% - 64px));
+  margin: auto;
+}
+
+.bs-home-hero-copy {
+  min-width: 0;
+  max-width: 970px;
+}
+
+/* ---- Headline ---- */
+.bs-home-hero-title {
+  max-width: 1000px;
+  margin: 23px 0 25px;
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: clamp(46px, 5.4vw, 77px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.058em;
+  text-wrap: balance;
+  text-shadow: 0 3px 34px rgba(0, 0, 0, 0.27);
+}
+
+.bs-home-hero-rotate {
+  position: relative;
+  display: inline-block;
+  min-width: 0;
+  color: var(--color-hero-accent);
+}
+
+.bs-home-hero-word {
+  display: inline-block;
+  transition:
+    opacity 0.24s,
+    transform 0.24s;
+}
+
+/* Set by useRotatingWord for the 240ms between two words (opacity/transform only) */
+.bs-home-hero-word[data-swap] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.bs-home-hero-subtitle {
+  max-width: 640px;
+  margin: 0;
+  color: rgba(239, 246, 255, 0.93);
+  font-size: clamp(16px, 1.55vw, 19px);
+  font-weight: 400;
+  line-height: 1.65;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.48);
+}
+
+/* ---- CTAs ---- */
+.bs-home-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+/* Primary: the shared reference CTA with the hero's roomier button box */
+.bs-home-hero-actions .cta-ref {
+  min-height: 0;
+  padding: 12px 22px;
+  line-height: 1.6;
+}
+
+/* Secondary: translucent pill (mockup `.btn:not(.primary)` inside the hero) */
+.bs-home-hero-secondary {
+  display: block;
+  box-sizing: border-box;
+  padding: 12px 22px;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  border-radius: 999px;
+  background: rgba(6, 15, 27, 0.4);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    background 0.25s,
+    color 0.25s;
+}
+
+.bs-home-hero-secondary:hover {
+  transform: translateY(-3px);
+  border-color: #fff;
+  background: rgba(15, 34, 59, 0.65);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* ---- Client-logo marquee, pinned to the bottom (reserves no layout space) ---- */
+.bs-home-hero-logos {
+  position: absolute;
+  inset: auto 0 30px 0;
+  z-index: 1;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.client-logo-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.client-logo-track {
+  display: flex;
+  width: max-content;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  animation: buildsenseClientMarquee 68s linear infinite;
+}
+
+.client-logo-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 58px;
+  padding-right: 58px;
+}
+
+.client-logo-item {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  height: 92px;
+  padding: 4px 0;
+}
+
+.client-logo-item--foodhub {
+  width: 245px;
+}
+.client-logo-item--road-motors {
+  width: 350px;
+}
+.client-logo-item--kbugz {
+  width: 250px;
+}
+
+.client-logo-item img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1;
+  filter: none;
+  transform: translateZ(0);
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+  user-select: none;
+}
+
+.client-logo-item--foodhub img {
+  max-height: 92px;
+}
+.client-logo-item--road-motors img {
+  max-height: 78px;
+}
+.client-logo-item--kbugz img {
+  max-height: 76px;
+}
+
+/* Fine pointers only. The wrapper is pointer-events:none (as in the mockup), so
+   this only reacts when the marquee is static under reduced motion. */
+@media (hover: hover) and (pointer: fine) {
+  .client-logo-item:hover img {
+    transform: scale(1.045);
+    filter: brightness(1.06);
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .client-logo-track {
+    animation-duration: 64s;
+  }
+  .client-logo-group {
+    gap: 44px;
+    padding-right: 44px;
+  }
+  .client-logo-item {
+    height: 84px;
+  }
+  .client-logo-item--foodhub {
+    width: 215px;
+  }
+  .client-logo-item--road-motors {
+    width: 305px;
+  }
+  .client-logo-item--kbugz {
+    width: 215px;
+  }
+  .client-logo-item--foodhub img {
+    max-height: 84px;
+  }
+  .client-logo-item--road-motors img {
+    max-height: 70px;
+  }
+  .client-logo-item--kbugz img {
+    max-height: 72px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bs-home-hero-grid {
+    width: min(100% - 42px, 680px);
+  }
+  .bs-home-hero-title {
+    font-size: clamp(42px, 7.2vw, 60px);
+  }
+  .bs-home-hero-overlay {
+    background:
+      linear-gradient(90deg, rgba(3, 8, 16, 0.83), rgba(3, 8, 16, 0.48)),
+      linear-gradient(0deg, rgba(3, 8, 16, 0.52), transparent 34%);
+  }
+}
+
+@media (max-width: 620px) {
+  .bs-home-hero {
+    min-height: 100svh;
+    padding: calc(var(--bs-hero-header-height, 72px) + 46px) 0 74px;
+  }
+  .bs-home-hero-grid {
+    width: calc(100% - 40px);
+  }
+  .bs-home-hero-video {
+    object-position: 53% center;
+  }
+  .bs-home-hero-overlay {
+    background:
+      linear-gradient(90deg, rgba(3, 8, 16, 0.88), rgba(3, 8, 16, 0.63)),
+      linear-gradient(0deg, rgba(3, 8, 16, 0.42), transparent 45%);
+  }
+  .bs-home-hero-title {
+    margin: 20px 0 22px;
+    font-size: clamp(36px, 10vw, 47px);
+    line-height: 1.13;
+    overflow-wrap: normal;
+  }
+  .bs-home-hero-title br {
+    display: none;
+  }
+  .bs-home-hero-rotate {
+    display: block;
+    margin-top: 6px;
+  }
+  .bs-home-hero-actions {
+    gap: 11px;
+    margin-top: 26px;
+  }
+  .bs-home-hero-actions .cta-ref,
+  .bs-home-hero-secondary {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .client-logo-marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 8%, #000 92%, transparent 100%);
+  }
+  .client-logo-track {
+    animation-duration: 58s;
+  }
+  .client-logo-group {
+    gap: 30px;
+    padding-right: 30px;
+  }
+  .client-logo-item {
+    height: 76px;
+  }
+  .client-logo-item--foodhub {
+    width: 175px;
+  }
+  .client-logo-item--road-motors {
+    width: 245px;
+  }
+  .client-logo-item--kbugz {
+    width: 170px;
+  }
+  .client-logo-item--foodhub img {
+    max-height: 72px;
+  }
+  .client-logo-item--road-motors img {
+    max-height: 60px;
+  }
+  .client-logo-item--kbugz img {
+    max-height: 64px;
+  }
+}
+
+/* Short, very narrow phones: leave room so the logos stay below the CTAs */
+@media (max-width: 420px) and (max-height: 649px) {
+  .bs-home-hero {
+    min-height: 700px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-home-hero-word {
+    transition: none;
+  }
+  .bs-home-hero-secondary {
+    transition: none;
+  }
+  /* Static logo row: the marquee holds its first frame */
+  .client-logo-track {
+    animation-play-state: paused;
+  }
+  .bs-home-hero-logos {
+    pointer-events: auto;
+  }
+}

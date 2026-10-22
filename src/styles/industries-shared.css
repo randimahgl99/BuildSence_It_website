@@ -1,0 +1,22 @@
+/*
+ * Shared by the /industries sections. The mockup scopes its container to
+ * `#page-industries .container`: min(1180px, 100% - 40px), then 14px side
+ * gutters at <= 768px (`calc(100% - 28px)`) and 11px at <= 420px (`calc(100% - 22px)`),
+ * read from the rendered mockup at 22 viewports. Margins are set by each section.
+ */
+.bs-ind-container {
+  width: min(1180px, calc(100% - 40px));
+  max-width: 1180px;
+}
+
+@media (max-width: 768px) {
+  .bs-ind-container {
+    width: calc(100% - 28px);
+  }
+}
+
+@media (max-width: 420px) {
+  .bs-ind-container {
+    width: calc(100% - 22px);
+  }
+}

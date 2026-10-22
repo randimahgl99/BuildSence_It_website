@@ -1,0 +1,948 @@
+/*
+ * About page (mockup `#page-about.bsa-page`, L11815-11979 + the dark-theme and
+ * photo overrides at L12047, L12202, L13054, L13169, L13178-13226). Effective
+ * values are the rendered ones: the dark theme sets the page tokens below
+ * (#080B0D / #F7F9FC / #A9B8CC / #303C48) instead of the source's #080909 set.
+ *
+ * Not ported: the hidden timeline rail, the founders photo label (display:none
+ * in the rendered mockup), unused author-symbol/note rules (AUDIT 8.2).
+ * Class prefix `bs-about-`; the reveal entrance is `about-reveal.css`.
+ *
+ * Quirk kept on purpose: the mockup's `.bsa-reveal` transition (opacity +
+ * transform only) replaces the cards' own hover transitions, so the network
+ * client / expertise card hover changes are instant while the icon fades.
+ */
+.bs-about {
+  --bsa-bg: #080b0d;
+  --bsa-ink: #f7f9fc;
+  --bsa-muted: #a9b8cc;
+  --bsa-border: #303c48;
+  --bsa-accent: #367fff;
+  position: relative;
+  overflow: hidden;
+  background: var(--bsa-bg);
+  color: var(--bsa-ink);
+}
+
+.bs-about-section {
+  position: relative;
+  isolation: isolate;
+  background: var(--bsa-bg);
+  color: var(--bsa-ink);
+}
+
+.bs-about-section *,
+.bs-about-section ::before,
+.bs-about-section ::after {
+  box-sizing: border-box;
+}
+
+.bs-about img {
+  max-width: 100%;
+}
+
+/* ---------- 01 Hero ---------- */
+.bs-about-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 850px;
+  padding: 100px 24px 154px;
+  text-align: center;
+}
+
+.bs-about-dotfield {
+  position: absolute;
+  inset: 35px 0 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.14) 1px, transparent 1.6px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 58% 43% at 50% 38%, #000, transparent 95%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.bs-about-hero-inner {
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1060px;
+}
+
+.bs-about-hero-logo {
+  width: clamp(175px, 18vw, 255px);
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  margin: 0 auto 32px;
+}
+
+.bs-about-kicker {
+  margin: 0 0 18px;
+  color: #b2b5b3;
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.bs-about-display {
+  max-width: 960px;
+  margin: 0 auto 20px;
+  color: #f5f5f4;
+  font-family: var(--font-serif);
+  font-size: clamp(52px, 7vw, 101px);
+  font-weight: 400;
+  line-height: 1.06;
+  letter-spacing: -0.058em;
+}
+
+.bs-about-hero-description {
+  max-width: 590px;
+  margin: 0 auto;
+  color: #9ea1a4;
+  font-size: clamp(14px, 1.32vw, 17px);
+  line-height: 1.7;
+}
+
+.bs-about-heading {
+  margin: 0;
+  color: #f2f2f0;
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 3.5vw, 56px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+/* ---------- 02 Our story ---------- */
+.bs-about-story {
+  padding: 130px 24px 235px;
+}
+
+.bs-about-prose {
+  max-width: 530px;
+  margin: auto;
+}
+
+.bs-about-prose h2 {
+  margin-bottom: 47px;
+  font-size: 44px;
+}
+
+.bs-about-prose p {
+  margin: 0 0 36px;
+  color: #b2b4b6;
+  font-size: 16px;
+  line-height: 1.88;
+}
+
+/* ---------- shared centred intro + mini button ---------- */
+.bs-about-intro {
+  max-width: 710px;
+  margin: 0 auto 44px;
+  text-align: center;
+}
+
+.bs-about-intro .bs-about-heading {
+  margin-bottom: 14px;
+}
+
+.bs-about-intro p {
+  max-width: 440px;
+  margin: 0 auto 23px;
+  color: #92969b;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+/*
+ * .bsa-minibutton (L11846): the Careers button keeps the plain look. The two
+ * "Meet the team" buttons also carry .bs-ref-motion-cta (L13169), which turns
+ * them into the dark CTA pill below and hides the arrow span (display:none in
+ * the rendered mockup, so the arrow is not rendered at all).
+ */
+.bs-about-minibutton {
+  display: inline-block;
+  min-height: 40px;
+  padding: 11px 19px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 9px;
+  background: #222325;
+  color: #f4f4f4;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.bs-about-minibutton:hover {
+  border-color: rgba(255, 255, 255, 0.26);
+  background: #2d2e30;
+  transform: translateY(-2px);
+}
+
+.bs-about-minibutton:focus-visible {
+  outline: 2px solid var(--bsa-accent);
+  outline-offset: 3px;
+}
+
+.bs-about-minibutton span {
+  margin-left: 8px;
+  font-size: 15px;
+}
+
+.bs-about-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--bsa-border);
+  border-radius: 16px;
+  background: #171e24;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 3px 14px rgba(0, 0, 0, 0.12);
+  color: #f6f6f6;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.bs-about-cta:hover,
+.bs-about-cta:focus-visible {
+  border-color: #f2f2f2;
+  background: #f2f2f2;
+  box-shadow:
+    0 0 19px rgba(255, 255, 255, 0.2),
+    0 5px 20px rgba(0, 0, 0, 0.16);
+  color: #17191b;
+  transform: none;
+}
+
+/* ---------- 03 Founders / 05 Team (photo sections) ---------- */
+.bs-about-people {
+  padding: 80px 24px 160px;
+}
+
+.bs-about-people.bs-about-founders {
+  padding: 56px 12px 88px;
+}
+
+.bs-about-team {
+  padding-top: 100px;
+  padding-bottom: 225px;
+}
+
+.bs-about-photo-figure {
+  width: 100%;
+  max-width: 850px;
+  margin: 36px auto 0;
+}
+
+.bs-about-founders .bs-about-photo-figure {
+  max-width: 560px;
+  margin: 20px auto 0;
+  padding: 0;
+}
+
+.bs-about-photo-surface {
+  position: relative;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #171a1b;
+}
+
+.bs-about-photo-surface > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Pin the intrinsic ratio: next/image serves a resized variant whose rounded size would shift the height by a fraction of a pixel */
+.bs-about-founders .bs-about-photo-surface > img {
+  aspect-ratio: 714 / 900;
+}
+
+.bs-about-team .bs-about-photo-surface > img {
+  aspect-ratio: 2048 / 1012;
+}
+
+.bs-about-photo-figure figcaption {
+  margin-top: 15px;
+  color: #747b7f;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* ---------- 04 What we believe ---------- */
+.bs-about-beliefs {
+  padding: 100px 24px 190px;
+}
+
+.bs-about-beliefs .bs-about-intro {
+  margin-bottom: 90px;
+}
+
+.bs-about-belief-stack {
+  display: flex;
+  flex-direction: column;
+  max-width: 990px;
+  margin: 0 auto;
+}
+
+.bs-about-belief {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  width: min(680px, 83%);
+  min-height: 276px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.095);
+  border-radius: 13px;
+  background: linear-gradient(145deg, #121416 0%, #0b0c0e 64%, #131217 100%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.21);
+}
+
+.bs-about-belief:not(:first-child) {
+  margin-top: -15px;
+}
+
+.bs-about-belief:nth-child(1) {
+  align-self: flex-end;
+  margin-right: 9%;
+  z-index: 1;
+}
+
+.bs-about-belief:nth-child(2) {
+  align-self: flex-start;
+  margin-left: 3%;
+  z-index: 2;
+}
+
+.bs-about-belief:nth-child(3) {
+  align-self: flex-end;
+  margin-right: 1%;
+  z-index: 3;
+}
+
+.bs-about-belief:nth-child(4) {
+  align-self: flex-start;
+  margin-left: 8%;
+  z-index: 4;
+}
+
+/*
+ * Energy layer: the single travelling dash of the belief runner. The rect has
+ * no geometry and is invisible until the controller (lib/aboutBeliefs/runner.ts)
+ * sizes and animates it. Look = the dark-theme override at L13054 (stroke 1.55,
+ * #0090FF, two glows).
+ */
+.bs-about-belief-energy {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.bs-about-belief-energy svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.bs-about-energy-runner {
+  fill: none;
+  stroke: #0090ff;
+  stroke-width: 1.55px;
+  stroke-linecap: round;
+  opacity: 0;
+  filter: drop-shadow(0 0 2px rgba(57, 174, 255, 0.9)) drop-shadow(0 0 7px rgba(0, 144, 255, 0.38));
+  will-change: stroke-dashoffset;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-about-energy-runner {
+    display: none !important;
+  }
+}
+
+.bs-about-belief-content {
+  position: relative;
+  z-index: 1;
+  padding: 22px 41px 39px;
+}
+
+.bs-about-browserbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 41px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #73787d;
+  font-size: 10px;
+  letter-spacing: 0.025em;
+}
+
+.bs-about-browserdots {
+  display: flex;
+  gap: 6px;
+}
+
+.bs-about-browserdots i {
+  width: 6px;
+  height: 6px;
+  border: 1px solid #53575b;
+  border-radius: 50%;
+}
+
+.bs-about-author {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  color: #dedfe0;
+  font-size: 12px;
+}
+
+.bs-about-author-photo {
+  display: block;
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bs-about-belief-content h3 {
+  margin: 0 0 14px;
+  color: #eceff0;
+  font-family: var(--font-serif);
+  font-size: clamp(27px, 3vw, 39px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.bs-about-belief-content p {
+  max-width: 565px;
+  margin: 0;
+  color: #9aa0a3;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* ---------- 06 Our network ---------- */
+.bs-about-network {
+  padding: 85px 24px 155px;
+}
+
+.bs-about-wide {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.bs-about-network-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 35px;
+}
+
+.bs-about-network-intro {
+  min-width: 0;
+  max-width: 735px;
+}
+
+.bs-about-network-intro p {
+  max-width: 700px;
+  margin: 17px 0 0;
+  color: var(--bsa-muted);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.bs-about-group-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 16px;
+}
+
+.bs-about-group-heading h3 {
+  margin: 0;
+  color: var(--bsa-ink);
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 2.9vw, 39px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.04em;
+}
+
+.bs-about-client-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.bs-about-client {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 18px 22px 22px;
+  border: 1px solid var(--bsa-border);
+  border-radius: 12px;
+  background: rgba(23, 30, 36, 0.25);
+  text-align: center;
+}
+
+.bs-about-client:hover {
+  border-color: rgba(127, 176, 255, 0.48);
+  background: rgba(23, 30, 36, 0.46);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.13);
+}
+
+.bs-about-logo-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.bs-about-logo-frame img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.bs-about-client[data-client="kbugz"] .bs-about-logo-frame img {
+  width: 96%;
+  height: 117px;
+}
+
+.bs-about-client[data-client="motors"] .bs-about-logo-frame img {
+  width: 100%;
+  height: 157px;
+}
+
+.bs-about-client[data-client="hunger"] .bs-about-logo-frame img {
+  width: 100%;
+  height: 145px;
+}
+
+.bs-about-client-rule {
+  width: 38px;
+  height: 1px;
+  margin: 2px 0 17px;
+  background: var(--bsa-accent);
+  opacity: 0.8;
+}
+
+.bs-about-client h4 {
+  margin: 0 0 5px;
+  color: var(--bsa-ink);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.bs-about-client p {
+  margin: 0;
+  color: var(--bsa-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.bs-about-expertise {
+  margin-top: 30px;
+  padding-top: 28px;
+  border-top: 1px solid var(--bsa-border);
+}
+
+.bs-about-expertise .bs-about-group-heading {
+  margin-bottom: 18px;
+}
+
+.bs-about-expertise-heading p {
+  margin: 8px 0 0;
+  color: var(--bsa-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.bs-about-expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bs-about-expertise-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+  min-height: 146px;
+  padding: 19px 15px;
+  border: 1px solid var(--bsa-border);
+  border-radius: 11px;
+  background: rgba(23, 30, 36, 0.2);
+}
+
+.bs-about-expertise-card:hover {
+  border-color: rgba(127, 176, 255, 0.45);
+  background: rgba(23, 30, 36, 0.42);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.13);
+}
+
+.bs-about-expertise-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 49px;
+  width: 49px;
+  height: 49px;
+  border: 1px solid rgba(127, 176, 255, 0.13);
+  border-radius: 50%;
+  background: rgba(54, 127, 255, 0.095);
+  color: #7fb0ff;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.bs-about-expertise-card:hover .bs-about-expertise-icon {
+  background: rgba(54, 127, 255, 0.16);
+  color: #b6d2ff;
+}
+
+.bs-about-expertise-icon svg {
+  display: block;
+  max-width: 28px;
+  max-height: 28px;
+}
+
+.bs-about-expertise-copy {
+  min-width: 0;
+}
+
+.bs-about-expertise-copy h4 {
+  margin: 2px 0 8px;
+  color: var(--bsa-ink);
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.bs-about-expertise-copy p {
+  margin: 0;
+  color: var(--bsa-muted);
+  font-size: 11.5px;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+
+/* ---------- 07 Careers ---------- */
+.bs-about-careers {
+  padding: 160px 24px 220px;
+  text-align: center;
+}
+
+.bs-about-careers .bs-about-intro {
+  max-width: 650px;
+}
+
+.bs-about-careers .bs-about-intro p {
+  max-width: 450px;
+}
+
+.bs-about-careers small {
+  display: block;
+  margin-top: 17px;
+  color: #767a7d;
+  font-size: 11px;
+}
+
+/* ---------- 08 Blog ---------- */
+.bs-about-blog {
+  padding: 60px 24px 175px;
+}
+
+.bs-about-blog .bs-about-heading {
+  margin-bottom: 34px;
+}
+
+.bs-about-blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 26px;
+}
+
+.bs-about-blog-card {
+  min-width: 0;
+}
+
+.bs-about-blog-cover {
+  width: 100%;
+  aspect-ratio: 1.8;
+  overflow: hidden;
+  border: 1px solid #222527;
+  border-radius: 5px;
+  background: #151718;
+}
+
+.bs-about-blog-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.bs-about-blog-card:hover img {
+  transform: scale(1.035);
+}
+
+.bs-about-blog-card h3 {
+  margin: 14px 0 5px;
+  color: #eeeeed;
+  font-size: 14px;
+  font-weight: 550;
+  line-height: 1.5;
+}
+
+.bs-about-blog-card p {
+  display: block;
+  margin: 0 0 5px;
+  color: #94999a;
+  font-size: 11px;
+}
+
+/* ---------- responsive (mockup max-width blocks) ---------- */
+@media (max-width: 1020px) {
+  .bs-about-hero {
+    min-height: 760px;
+    padding: 95px 24px 120px;
+  }
+
+  .bs-about-belief {
+    width: min(700px, 91%);
+  }
+
+  .bs-about-belief:nth-child(1) {
+    margin-right: 2%;
+  }
+
+  .bs-about-belief:nth-child(4) {
+    margin-left: 2%;
+  }
+
+  .bs-about-expertise-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bs-about-expertise-card {
+    min-height: 120px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 720px) {
+  .bs-about-hero {
+    min-height: 710px;
+    padding: 85px 20px 95px;
+  }
+
+  .bs-about-hero-logo {
+    width: clamp(190px, 46vw, 265px);
+    margin-bottom: 27px;
+  }
+
+  .bs-about-display {
+    font-size: clamp(42px, 9.6vw, 64px);
+    letter-spacing: -0.05em;
+  }
+
+  .bs-about-story {
+    padding: 95px 22px 130px;
+  }
+
+  .bs-about-prose h2 {
+    margin-bottom: 28px;
+  }
+
+  .bs-about-prose p {
+    margin-bottom: 29px;
+    font-size: 15px;
+  }
+
+  .bs-about-people,
+  .bs-about-team {
+    padding: 80px 18px 120px;
+  }
+
+  .bs-about-beliefs {
+    padding: 85px 16px 125px;
+  }
+
+  .bs-about-beliefs .bs-about-intro {
+    margin-bottom: 46px;
+  }
+
+  .bs-about-belief {
+    align-self: auto !important;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: 0 !important;
+    border-radius: 11px;
+  }
+
+  .bs-about-belief:not(:first-child) {
+    margin-top: 18px !important;
+  }
+
+  .bs-about-belief-content {
+    padding: 22px 23px 30px;
+  }
+
+  .bs-about-browserbar {
+    padding: 0 12px;
+  }
+
+  .bs-about-browserbar > span:nth-child(2) {
+    display: none;
+  }
+
+  .bs-about-network {
+    padding: 65px 20px 140px;
+  }
+
+  .bs-about-network-heading {
+    gap: 16px;
+    margin-bottom: 34px;
+  }
+
+  .bs-about-client-grid {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .bs-about-client {
+    padding: 14px 22px 20px;
+  }
+
+  .bs-about-logo-frame {
+    height: 145px;
+  }
+
+  .bs-about-expertise {
+    margin-top: 35px;
+    padding-top: 27px;
+  }
+
+  .bs-about-expertise-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .bs-about-expertise-card {
+    gap: 15px;
+    min-height: 0;
+    padding: 18px;
+  }
+
+  .bs-about-expertise-copy h4 {
+    font-size: 14px;
+  }
+
+  .bs-about-expertise-copy p {
+    font-size: 12px;
+  }
+
+  .bs-about-careers {
+    padding: 120px 20px 140px;
+  }
+
+  .bs-about-blog {
+    padding: 50px 20px 135px;
+  }
+
+  .bs-about-blog-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .bs-about-blog-cover {
+    aspect-ratio: 1.8;
+  }
+}
+
+@media (max-width: 620px) {
+  /* mockup .page rule at <= 620 */
+  .bs-about {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .bs-about-section {
+    overflow-wrap: break-word;
+  }
+
+  .bs-about-display {
+    font-size: clamp(39px, 10.6vw, 56px);
+  }
+}
+
+@media (max-width: 600px) {
+  .bs-about-people.bs-about-founders {
+    padding: 48px 6px 72px;
+  }
+
+  .bs-about-founders .bs-about-photo-figure {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .bs-about-expertise-icon {
+    flex-basis: 44px;
+    width: 44px;
+    height: 44px;
+  }
+
+  .bs-about-expertise-card {
+    gap: 12px;
+    padding: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-about-expertise-icon,
+  .bs-about-blog-cover img {
+    transition: none !important;
+  }
+}

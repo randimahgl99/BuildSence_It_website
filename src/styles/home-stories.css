@@ -1,0 +1,315 @@
+/*
+ * Home "Client stories" (#client-stories). Source: mockup L326-615 (base),
+ * L11309-11365 (118s / pause-on-hover), L12384-12425 (dark charcoal cards).
+ * Values are the rendered result of that cascade, read at 14 viewports (AUDIT R1).
+ * Breakpoints are the mockup's own: 900, 600.
+ *
+ * Card focus effect: the mockup source has one (hover lifts a card and dims its
+ * siblings, L11330-11350) but the dark-theme block at L12416 neutralises every
+ * part of it with !important, so in the rendered mockup a hovered card does not
+ * move, dim or glow. It is not ported (nothing to match). Hover only pauses the
+ * marquee, below.
+ */
+.bs-stories {
+  position: relative;
+  width: 100%;
+  padding: 92px 0 96px;
+  overflow: hidden;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-stories-heading {
+  width: min(920px, calc(100% - 40px));
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.bs-stories-heading h2 {
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(38px, 4.2vw, 58px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-stories-heading p {
+  max-width: 760px;
+  margin: 18px auto 0;
+  color: var(--color-copy);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Full browser-width motion: deliberately no container side padding. */
+.bs-stories-marquee {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Starts at -50% and slides to 0 (rightwards); two identical groups = seamless. */
+.bs-stories-track {
+  display: flex;
+  width: max-content;
+  align-items: stretch;
+  transform: translate3d(-50%, 0, 0);
+  will-change: transform;
+  animation: clientStoriesV4Right 118s linear infinite;
+}
+
+/* Pause while a story is being read (mockup L11318 / L12411). Off-screen and
+   hidden-tab pausing comes from MotionGate (styles/motion-gate.css). */
+.bs-stories-marquee:focus-visible {
+  outline: 2px solid #367fff;
+  outline-offset: -4px;
+}
+
+.bs-stories-marquee:hover .bs-stories-track,
+.bs-stories-marquee:focus-within .bs-stories-track {
+  animation-play-state: paused !important;
+}
+
+.bs-story-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: stretch;
+  gap: 24px;
+  padding-right: 24px;
+}
+
+.bs-story-card {
+  display: flex;
+  flex: 0 0 430px;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 32px 32px 28px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 24px;
+  background: #101214;
+  color: var(--color-title);
+}
+
+.bs-story-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 20px;
+  color: #f5b301;
+  font-size: 19px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.bs-story-card blockquote {
+  flex: 1;
+  margin: 0;
+  color: var(--color-copy);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.015em;
+}
+
+.bs-story-client {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--color-stroke);
+}
+
+/* Shared dark tile that keeps the transparent logo art visible. */
+.bs-story-logo {
+  display: flex;
+  flex: 0 0 106px;
+  align-items: center;
+  justify-content: center;
+  width: 106px;
+  height: 74px;
+  padding: 10px 12px;
+  overflow: hidden;
+  border: 1px solid #30373c;
+  border-radius: 18px;
+  background: #242a2c;
+}
+
+.bs-story-logo img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 54px;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Partial rating from a verified `verifiedRating` (data/testimonials.ts). */
+.bs-story-stars [data-empty] {
+  color: var(--color-stroke);
+}
+
+/* Production fallback while no testimonial is approved: one static card, same
+   look as a story card, centred. Not part of the mockup. */
+.bs-stories-empty {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.bs-stories-empty .bs-story-card {
+  min-height: 0;
+  justify-content: center;
+}
+
+.bs-stories-empty blockquote {
+  flex: none;
+}
+
+.bs-stories-empty blockquote strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--color-title);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.bs-story-card[data-story="road-lanka-motors"] .bs-story-logo img {
+  max-height: 48px;
+}
+
+.bs-story-card[data-story="hunger"] .bs-story-logo img {
+  max-height: 58px;
+}
+
+.bs-story-client-copy {
+  min-width: 0;
+}
+
+.bs-story-client-copy strong {
+  display: block;
+  margin: 0;
+  color: var(--color-title);
+  font-size: 17px;
+  font-weight: 800; /* only 400-700 are loaded, so this renders 700, as in the mockup */
+  line-height: 1.2;
+}
+
+.bs-story-client-copy span {
+  display: block;
+  margin-top: 6px;
+  color: #6385b5;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+  .bs-stories {
+    padding: 76px 0 82px;
+  }
+
+  .bs-stories-heading {
+    margin-bottom: 38px;
+  }
+
+  .bs-stories-heading p {
+    font-size: 16px;
+  }
+
+  .bs-stories-track {
+    animation-duration: 108s;
+  }
+
+  .bs-story-group {
+    gap: 20px;
+    padding-right: 20px;
+  }
+
+  .bs-story-card {
+    flex-basis: 390px;
+    min-height: 380px;
+    padding: 28px 27px 25px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bs-stories {
+    padding: 66px 0 72px;
+  }
+
+  .bs-stories-heading {
+    width: calc(100% - 28px);
+    margin-bottom: 32px;
+  }
+
+  .bs-stories-heading h2 {
+    font-size: clamp(34px, 10.5vw, 46px);
+  }
+
+  .bs-stories-heading p {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .bs-stories-track {
+    animation-duration: 96s;
+  }
+
+  .bs-story-group {
+    gap: 16px;
+    padding-right: 16px;
+  }
+
+  .bs-story-card {
+    flex-basis: min(86vw, 360px);
+    min-height: 365px;
+    padding: 25px 22px 22px;
+    border-radius: 21px;
+  }
+
+  .bs-story-card blockquote {
+    font-size: 15px;
+  }
+
+  .bs-story-logo {
+    flex-basis: 92px;
+    width: 92px;
+    height: 66px;
+    padding: 9px 10px;
+    border-radius: 16px;
+  }
+
+  .bs-story-logo img {
+    max-height: 48px;
+  }
+
+  .bs-story-client-copy strong {
+    font-size: 15px;
+  }
+}
+
+/* Reduced motion (mockup L598-615): a static, horizontally scrollable strip with
+   only the first group (the aria-hidden copy is hidden). */
+@media (prefers-reduced-motion: reduce) {
+  .bs-stories-marquee {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .bs-stories-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .bs-story-group[aria-hidden="true"] {
+    display: none;
+  }
+}

@@ -1,0 +1,140 @@
+/*
+ * Industries FAQ (mockup `.industries-v2-faq-section`, source L9592 / L9763-9890
+ * / L10218-10360, dark overrides L12284 / L12476-12610 / L12937). Shares the Home
+ * FAQ shell and chevron (styles/faq.css); only what the rendered mockup does
+ * differently lives here, read at 22 viewports (AUDIT R1). Breakpoints: 768, 420.
+ *
+ * Differences from the Home / POS FAQ: its own section spacing and z-index (7),
+ * a wider container up to 768px, closed cards #171E24 and OPEN cards #151719,
+ * 10px (9px) extra margin under each card, 700-weight 14px questions with a
+ * 74px (68px) minimum height, a 16px answer with its own padding transition,
+ * a light #EFF5FF answer colour while open, and a 34px (32px) icon box on phones.
+ */
+.bs-ind-faq {
+  z-index: 7;
+  padding: 92px 0 118px;
+  overflow: visible;
+}
+
+.bs-ind-faq .bs-faq-container {
+  width: min(1120px, calc(100% - 34px));
+}
+
+.bs-ind-faq .bs-faq-item {
+  margin-bottom: 10px;
+  background: var(--color-card);
+  transition:
+    background 0.28s ease,
+    color 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.bs-ind-faq .bs-faq-item[data-open] {
+  background: #151719;
+}
+
+.bs-ind-faq .bs-faq-head {
+  gap: 12px;
+  min-height: 74px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: normal;
+}
+
+.bs-ind-faq .bs-faq-icon {
+  grid-template-rows: 3px 9px;
+}
+
+.bs-ind-faq .bs-faq-body {
+  transition: grid-template-rows 0.34s ease;
+}
+
+/* The answer carries its own padding (mockup `.faq-a > p`); the shared wrapper adds none */
+.bs-ind-faq .bs-faq-body > div,
+.bs-ind-faq .bs-faq-item[data-open] .bs-faq-body > div {
+  padding: 0;
+}
+
+.bs-ind-faq .bs-faq-body p {
+  margin: 0 20px 0 33px;
+  padding: 0 23px;
+  overflow: hidden;
+  color: var(--color-copy);
+  font-size: 16px;
+  line-height: 1.65;
+  transition:
+    padding 0.34s ease,
+    color 0.28s ease;
+}
+
+.bs-ind-faq .bs-faq-item[data-open] .bs-faq-body p {
+  padding: 2px 23px 38px;
+  color: #eff5ff;
+}
+
+@media (max-width: 768px) {
+  .bs-ind-faq {
+    padding: 76px 0 84px;
+  }
+
+  .bs-ind-faq .bs-faq-container {
+    width: calc(100% - 28px);
+  }
+
+  .bs-ind-faq .bs-faq-item {
+    margin-bottom: 9px;
+  }
+
+  .bs-ind-faq .bs-faq-head {
+    min-height: 68px;
+  }
+
+  .bs-ind-faq .bs-faq-head > span:not(.bs-faq-icon) {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* The mockup's icon box is 34px wide on phones (its flex-basis beats the 12px width) */
+  .bs-ind-faq .bs-faq-icon {
+    flex-basis: 34px;
+    grid-template-rows: 3.5px 8.5px;
+  }
+
+  /*
+   * The mockup also sets `width:100%` on the answer here, which (with its 33px
+   * left margin) pushes the text 33px past the card and clips the end of every
+   * line. Not ported: the answer keeps the narrower margin-box width it has on
+   * desktop, so the text wraps inside the card.
+   */
+  .bs-ind-faq .bs-faq-body p {
+    padding: 0 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+  }
+
+  .bs-ind-faq .bs-faq-item[data-open] .bs-faq-body p {
+    padding: 2px 16px 26px;
+  }
+}
+
+@media (max-width: 420px) {
+  .bs-ind-faq .bs-faq-icon {
+    flex-basis: 32px;
+  }
+
+  .bs-ind-faq .bs-faq-body p,
+  .bs-ind-faq .bs-faq-item[data-open] .bs-faq-body p {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-ind-faq .bs-faq-item,
+  .bs-ind-faq .bs-faq-body,
+  .bs-ind-faq .bs-faq-body p {
+    transition: none;
+  }
+}

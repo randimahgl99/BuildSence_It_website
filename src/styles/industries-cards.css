@@ -1,0 +1,281 @@
+/*
+ * Industries section 02: six photo cards (mockup `.industries-v2-card-section`
+ * and `#industryCards .industries-v2-industry-card`, source L9248 / L6971, dark
+ * overrides L7387 / L12040). Values are the resolved result of the cascade, read
+ * from the rendered mockup at 22 viewports (AUDIT R1).
+ */
+.bs-ind-cards {
+  position: relative;
+  z-index: 3;
+  padding: 92px 0 105px;
+  overflow: hidden;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+/* The mockup's shared `.container`; it is positioned above the section background */
+.bs-ind-cards-inner {
+  position: relative;
+  z-index: 1;
+  margin-inline: auto;
+}
+
+.bs-ind-cards-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.72fr);
+  gap: 70px;
+  align-items: end;
+  margin-bottom: 56px;
+  color: #373a3d;
+}
+
+.bs-ind-cards-title {
+  margin: 0 0 16px;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.6vw, 56px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-ind-cards-head > p {
+  margin: 0 0 7px;
+  color: var(--color-copy);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.bs-ind-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.bs-ind-card {
+  position: relative;
+  isolation: isolate;
+  min-height: 440px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--color-card);
+  box-shadow: 0 18px 42px rgba(37, 43, 44, 0.11);
+  color: #fff;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
+}
+
+.bs-ind-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(to top, rgba(25, 28, 32, 0.88) 0%, rgba(25, 28, 32, 0.6) 38%, rgba(25, 28, 32, 0.16) 68%, rgba(25, 28, 32, 0) 88%);
+  transition: background 0.3s;
+}
+
+.bs-ind-card-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.32s;
+}
+
+.bs-ind-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 26px;
+  gap: 0;
+}
+
+.bs-ind-card-overlay h3 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-family: var(--font-serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+}
+
+.bs-ind-card-overlay p {
+  max-width: 95%;
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.91);
+  font-size: 17px;
+  line-height: 1.6;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.34);
+}
+
+.bs-ind-card-cta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-sizing: border-box;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--color-stroke);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    transform 0.25s,
+    box-shadow 0.25s,
+    background 0.25s,
+    color 0.25s;
+}
+
+.bs-ind-card-cta i {
+  display: block;
+  font-style: normal;
+  transition: transform 0.28s;
+}
+
+/* Plain :hover like the mockup (it does not use a fine-pointer query here) */
+.bs-ind-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 24px 54px rgba(37, 43, 44, 0.17);
+}
+
+/* The mockup's generic `.btn:hover` lift */
+.bs-ind-card-cta:hover {
+  transform: translateY(-3px);
+}
+
+.bs-ind-card:hover .bs-ind-card-image {
+  transform: scale(1.045);
+}
+
+.bs-ind-card:hover::before {
+  background: linear-gradient(to top, rgba(25, 28, 32, 0.94) 0%, rgba(25, 28, 32, 0.68) 40%, rgba(25, 28, 32, 0.2) 70%, rgba(25, 28, 32, 0) 90%);
+}
+
+.bs-ind-card:hover .bs-ind-card-cta i {
+  transform: translateX(4px);
+}
+
+@media (max-width: 980px) {
+  .bs-ind-cards-head {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .bs-ind-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Phone layout (mockup block @media (max-width: 768px), L9906) */
+@media (max-width: 768px) {
+  .bs-ind-cards {
+    padding: 72px 0 80px;
+  }
+
+  .bs-ind-cards-head {
+    display: block;
+    margin-bottom: 38px;
+  }
+
+  .bs-ind-cards-title {
+    margin-top: 8px;
+    font-size: clamp(34px, 9.5vw, 48px);
+    line-height: 1.02;
+    overflow-wrap: anywhere;
+  }
+
+  .bs-ind-cards-head > p {
+    margin-top: 18px;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .bs-ind-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .bs-ind-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 365px;
+    border-radius: 22px;
+  }
+
+  .bs-ind-card-overlay {
+    padding: 22px;
+  }
+
+  .bs-ind-card-overlay h3 {
+    font-size: 29px;
+  }
+
+  .bs-ind-card-overlay p {
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .bs-ind-card-cta {
+    min-height: 44px;
+    padding-inline: 16px;
+    font-size: 13px;
+  }
+
+  /* No hover movement at touch widths */
+  .bs-ind-card:hover,
+  .bs-ind-card:hover .bs-ind-card-image {
+    transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .bs-ind-cards-title {
+    font-size: clamp(31px, 9.4vw, 40px);
+  }
+
+  .bs-ind-card {
+    min-height: 340px;
+  }
+
+  .bs-ind-card-overlay {
+    padding: 19px;
+  }
+
+  .bs-ind-card-overlay h3 {
+    font-size: 27px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-ind-card,
+  .bs-ind-card::before,
+  .bs-ind-card-image,
+  .bs-ind-card-cta,
+  .bs-ind-card-cta i {
+    transition: none;
+  }
+
+  .bs-ind-card:hover,
+  .bs-ind-card:hover .bs-ind-card-image,
+  .bs-ind-card:hover .bs-ind-card-cta i,
+  .bs-ind-card-cta:hover {
+    transform: none;
+  }
+}

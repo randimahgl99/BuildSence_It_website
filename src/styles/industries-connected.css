@@ -1,0 +1,601 @@
+/*
+ * Industries section 05: connected operations (mockup `.connected-ops-v3`,
+ * source L3957-4590, dark overrides L12043 / L12094 / L12185 / L12197, heading
+ * size L13097-13120, entrance neutralisation L5504). Values are the resolved
+ * result of the cascade, read from the rendered mockup at 22 viewports
+ * (AUDIT R1): the rendered section is DARK with dark cards, an all-blue
+ * Georgia heading and a `#303C48` base track.
+ * Breakpoints: 1199, 767, 430.
+ *
+ * In the rendered mockup the heading, intro and cards are always visible (their
+ * section-level entrance is neutralised); what the section's `.is-visible` still
+ * drives is the flow path draw, the node pop-ins, the travelling dot, the card
+ * art keyframes and the entrance-delay transitions that stay on the cards.
+ *
+ * Section state lives in `data-state` ("wait" -> "visible", set by
+ * SectionReveal). Absent = the finished look (fail-visible, no JS / reduced
+ * motion); "wait" = path undrawn, nodes and dot hidden, visibility line hidden;
+ * "visible" = those transitions and the keyframes (styles/keyframes.css) run.
+ */
+.bs-ind-co {
+  position: relative;
+  z-index: 5;
+  overflow: hidden;
+  margin-top: -34px;
+  padding: 108px 0 118px;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-ind-co-inner {
+  position: relative;
+  margin-inline: auto;
+}
+
+/* ---- Heading + intro ---- */
+.bs-ind-co-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(330px, 0.72fr);
+  gap: 72px;
+  align-items: end;
+  margin-bottom: 58px;
+}
+
+.bs-ind-co-head-left,
+.bs-ind-co-intro {
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bs-ind-co-intro {
+  transition-delay: 0.12s;
+}
+
+.bs-ind-co-title {
+  max-width: 760px;
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+/* Three lines, each its own block; all accent blue in the rendered mockup */
+.bs-ind-co-title > span {
+  display: block;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+
+.bs-ind-co-intro {
+  max-width: 520px;
+  margin: 0 0 5px auto;
+  color: var(--color-copy);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ---- Workflow ---- */
+.bs-ind-co-workflow {
+  position: relative;
+}
+
+.bs-ind-co-scroller {
+  width: 100%;
+  overflow: visible;
+}
+
+.bs-ind-co-scroller:focus-visible {
+  outline: 2px solid var(--color-blue-interactive);
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+.bs-ind-co-stage {
+  position: relative;
+  min-width: 0;
+  padding: 30px 0 18px;
+}
+
+.bs-ind-co-connector {
+  position: absolute;
+  top: 22px;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 250px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.bs-ind-co-path-base,
+.bs-ind-co-path-draw {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-ind-co-path-base {
+  stroke: var(--color-stroke);
+  stroke-width: 3;
+}
+
+.bs-ind-co-path-draw {
+  stroke: var(--color-accent);
+  stroke-width: 3.2;
+  stroke-dasharray: 1450;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 5px rgba(0, 144, 255, 0.22));
+}
+
+.bs-ind-co-nodes circle {
+  fill: #fff;
+  stroke: var(--color-accent);
+  stroke-width: 3;
+  transform: scale(1);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.bs-ind-co-data-dot {
+  fill: var(--color-blue-interactive);
+}
+
+/* Entering "wait" is instant (no transition from the finished look) */
+.bs-ind-co[data-state="wait"] .bs-ind-co-path-draw {
+  stroke-dashoffset: 1450;
+}
+
+.bs-ind-co[data-state="wait"] .bs-ind-co-nodes circle {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.bs-ind-co[data-state="wait"] .bs-ind-co-data-dot {
+  opacity: 0;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-path-draw {
+  transition: stroke-dashoffset 1.65s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(1) { transition-delay: 0.34s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(2) { transition-delay: 0.48s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(3) { transition-delay: 0.62s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(4) { transition-delay: 0.76s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(5) { transition-delay: 0.9s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-nodes circle:nth-child(6) { transition-delay: 1.04s; }
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-data-dot {
+  transition: opacity 0.35s ease 1.5s;
+}
+
+/* ---- Cards ---- */
+.bs-ind-co-cards {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bs-ind-co-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 236px;
+  padding: 19px 18px 20px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 24px;
+  background: var(--color-card);
+  box-shadow:
+    0 18px 42px rgba(52, 68, 64, 0.075),
+    0 3px 8px rgba(52, 68, 64, 0.035);
+  cursor: default;
+  transition:
+    opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+/*
+ * Once the section is visible the mockup pins `transform: none` on the cards
+ * (`.is-visible .connected-ops-v3-card`, L4156), which out-specifies the
+ * `:hover` lift, so in the rendered mockup the cards never move on hover. Only
+ * the shadow change and the art nudge below are live. Mirrored here.
+ */
+.bs-ind-co[data-state="visible"] .bs-ind-co-card {
+  transform: none;
+}
+
+/* The entrance delays stay on the cards after the entrance (they delay hover too) */
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(1) { transition-delay: 0.42s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(2) { transition-delay: 0.5s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(3) { transition-delay: 0.58s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(4) { transition-delay: 0.66s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(5) { transition-delay: 0.74s; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-card:nth-child(6) { transition-delay: 0.82s; }
+
+.bs-ind-co-step {
+  color: #6587b6;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.bs-ind-co-art {
+  display: grid;
+  place-items: center;
+  height: 126px;
+  margin: 8px -2px 3px;
+}
+
+.bs-ind-co-art svg {
+  width: 100%;
+  max-width: 128px;
+  height: 100%;
+  overflow: visible;
+}
+
+.bs-ind-co-card h3 {
+  margin: auto 0 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+/* Sales Record: the glowing card (dark theme keeps the dark fill and border) */
+.bs-ind-co-card-sales {
+  box-shadow:
+    0 24px 52px rgba(0, 144, 255, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+  animation: connectedOpsSalesGlow 5s ease-in-out infinite;
+}
+
+.bs-ind-co-card-sales .bs-ind-co-step {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* ---- Card art ---- */
+.bs-ind-co-card .bs-co-soft {
+  fill: var(--color-card);
+  stroke: #eff5ff;
+}
+
+.bs-ind-co-card .bs-co-stroke {
+  stroke: var(--color-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-ind-co-card .bs-co-fill {
+  fill: var(--color-accent);
+}
+
+.bs-ind-co-card .bs-co-check {
+  stroke: var(--color-blue-interactive);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-ind-co-card .bs-co-box {
+  fill: #eff5ff;
+  stroke: var(--color-accent);
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+.bs-ind-co-card .bs-co-profile {
+  fill: #eff5ff;
+  stroke: var(--color-accent);
+  stroke-width: 2.6;
+}
+
+.bs-ind-co-card .bs-co-profile-lines {
+  stroke: var(--color-blue-light);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.bs-ind-co-card .bs-co-profile-pulse {
+  fill: var(--color-accent);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.bs-ind-co-card .bs-co-report-bars {
+  stroke: var(--color-accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.bs-ind-co-card .bs-co-pie-ring {
+  fill: #eff5ff;
+  stroke: var(--color-blue-light);
+  stroke-width: 3;
+}
+
+.bs-ind-co-card .bs-co-pie-fill {
+  fill: var(--color-accent);
+  opacity: 0.9;
+}
+
+.bs-ind-co-card .bs-co-visibility-line {
+  stroke: var(--color-accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+.bs-ind-co-card .bs-co-grid {
+  stroke: var(--color-copy);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.bs-ind-co-card-sales .bs-co-sales-panel {
+  fill: rgba(255, 255, 255, 0.13);
+  stroke: rgba(255, 255, 255, 0.22);
+}
+
+.bs-ind-co-card-sales .bs-co-sales-bars {
+  stroke: #fff;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+.bs-ind-co-card-sales .bs-co-sales-lines {
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+/* Entrance keyframes: one-shot (fill both), then the customer pulse loops */
+/* Undrawn until its keyframe runs (`forwards` only, so it stays undrawn through the delay) */
+.bs-ind-co[data-state="wait"] .bs-co-visibility-line,
+.bs-ind-co[data-state="visible"] .bs-co-visibility-line {
+  stroke-dashoffset: 100;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-checkout svg {
+  animation: coCheckoutNudge 0.62s cubic-bezier(0.22, 1, 0.36, 1) 0.86s both;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-sales .bs-co-sales-bars {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: coSalesRise 0.78s cubic-bezier(0.22, 1, 0.36, 1) 0.88s both;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-inventory .bs-co-box-1 { animation: coBoxIn 0.45s ease 0.9s both; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-inventory .bs-co-box-2 { animation: coBoxIn 0.45s ease 0.99s both; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-inventory .bs-co-box-3 { animation: coBoxIn 0.45s ease 1.08s both; }
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-inventory .bs-co-box-4 { animation: coBoxIn 0.45s ease 1.17s both; }
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-customer .bs-co-profile-pulse {
+  animation: coProfilePulse 2.8s ease-in-out 1.15s infinite;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-reporting .bs-co-report-bars {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: coReportRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both;
+}
+
+.bs-ind-co[data-state="visible"] .bs-ind-co-art-visibility .bs-co-visibility-line {
+  animation: coLineDraw 1.05s ease 1.08s forwards;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bs-ind-co-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 24px 50px rgba(52, 68, 64, 0.12),
+      0 5px 12px rgba(52, 68, 64, 0.045);
+  }
+
+  .bs-ind-co-card:hover .bs-ind-co-art svg {
+    transform: translateY(-2px) scale(1.025);
+    transition: transform 0.28s ease;
+  }
+
+  .bs-ind-co-card-sales:hover {
+    box-shadow:
+      0 30px 64px rgba(0, 144, 255, 0.31),
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+  }
+}
+
+/* ---- Tablet: the track becomes a horizontal scroller ---- */
+@media (max-width: 1199px) {
+  .bs-ind-co {
+    padding: 94px 0 102px;
+  }
+
+  .bs-ind-co-head {
+    grid-template-columns: 1fr 0.78fr;
+    gap: 42px;
+    margin-bottom: 46px;
+  }
+
+  .bs-ind-co-scroller {
+    overflow-x: auto;
+    padding: 6px 0 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-copy) transparent;
+  }
+
+  .bs-ind-co-stage {
+    width: max-content;
+    min-width: 1160px;
+    padding-right: 18px;
+  }
+
+  .bs-ind-co-cards {
+    grid-template-columns: repeat(6, 180px);
+  }
+
+  .bs-ind-co-connector {
+    width: 1160px;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 767px) {
+  .bs-ind-co {
+    margin-top: -20px;
+    padding: 76px 0 82px;
+  }
+
+  .bs-ind-co-head {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 32px;
+  }
+
+  .bs-ind-co-title {
+    font-size: clamp(27px, 9vw, 64px);
+  }
+
+  .bs-ind-co-intro {
+    max-width: none;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Right-edge fade. The mockup paints it in its legacy LIGHT page colour, so on
+     the dark page it renders as a pale strip; ported as rendered. */
+  .bs-ind-co-workflow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -1px;
+    z-index: 4;
+    width: 46px;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(250, 251, 249, 0), #fafbf9 88%);
+    pointer-events: none;
+  }
+
+  .bs-ind-co-scroller {
+    margin-right: -18px;
+    padding-right: 18px;
+    scroll-padding-left: 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bs-ind-co-stage {
+    min-width: 1110px;
+    padding-top: 26px;
+  }
+
+  .bs-ind-co-cards {
+    grid-template-columns: repeat(6, 170px);
+    gap: 15px;
+  }
+
+  .bs-ind-co-card {
+    min-height: 224px;
+    padding: 17px 16px 18px;
+    border-radius: 22px;
+    scroll-snap-align: start;
+  }
+
+  .bs-ind-co-art {
+    height: 118px;
+  }
+
+  .bs-ind-co-card h3 {
+    font-size: 15px;
+  }
+
+  /* The mockup's `svg { max-width: 100% }` caps it at the stage width (1048px at <= 430px) */
+  .bs-ind-co-connector {
+    width: 1110px;
+    max-width: 100%;
+    height: 238px;
+    opacity: 0.82;
+  }
+}
+
+@media (max-width: 430px) {
+  .bs-ind-co-stage {
+    min-width: 1048px;
+  }
+
+  .bs-ind-co-cards {
+    grid-template-columns: repeat(6, 160px);
+    gap: 14px;
+  }
+
+  .bs-ind-co-card {
+    min-height: 214px;
+  }
+
+  .bs-ind-co-art {
+    height: 110px;
+  }
+}
+
+/* ---- Reduced motion: the finished look, no travelling dot ---- */
+@media (prefers-reduced-motion: reduce) {
+  .bs-ind-co-head-left,
+  .bs-ind-co-intro,
+  .bs-ind-co-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .bs-ind-co-path-draw {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .bs-ind-co-nodes circle,
+  .bs-ind-co-data-dot {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .bs-ind-co-data-dot {
+    display: none !important;
+  }
+
+  .bs-ind-co-card-sales {
+    animation: none !important;
+  }
+
+  .bs-ind-co-art svg,
+  .bs-ind-co-art * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .bs-co-visibility-line {
+    stroke-dashoffset: 0 !important;
+  }
+}

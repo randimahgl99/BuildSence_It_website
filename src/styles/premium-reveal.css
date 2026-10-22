@@ -1,0 +1,98 @@
+/*
+ * Home + Industries scroll reveal (mockup `buildsense-premium-scroll-styles`
+ * L5491-5606). Driven by components/motion/PremiumReveal.tsx through `data-rise`
+ * on elements marked `data-reveal="<kind>"`. Individual `translate` + `opacity`
+ * only, so the elements' own `transform`s (hover lifts, carousels) are untouched.
+ *
+ * Only elements the controller has registered carry `data-rise`, so nothing is
+ * hidden unless JS took it over (the one server-rendered hidden element, the hero
+ * logo marquee, has the fail-visible fallbacks at the bottom).
+ *
+ * Ported with two intentional differences:
+ *  - the hidden state is a plain declaration with raised specificity (not
+ *    `!important`), so the 5s failsafe animation can still show a stuck element;
+ *  - once the entrance is `done` nothing is forced any more (the mockup keeps
+ *    `opacity:1 !important; translate:0 0`), so the element's own opacity and
+ *    stacking behave as they do without the reveal.
+ */
+[data-reveal][data-rise] {
+  --bs-travel: 55px;
+  --bs-delay: 0ms;
+  --bs-duration: 950ms;
+}
+
+[data-reveal="description"][data-rise] {
+  --bs-duration: 900ms;
+}
+
+[data-reveal="card"][data-rise] {
+  --bs-duration: 980ms;
+}
+
+[data-reveal="cta"][data-rise] {
+  --bs-duration: 850ms;
+}
+
+/* Sticky visuals and moving carousels get a subtler entrance */
+[data-reveal="media"][data-rise] {
+  --bs-travel: 35px;
+  --bs-duration: 980ms;
+}
+
+@media (max-width: 767px) {
+  [data-reveal][data-rise] {
+    --bs-travel: 32px;
+  }
+
+  [data-reveal="media"][data-rise] {
+    --bs-travel: 24px;
+  }
+}
+
+/* The entrance owns the transition until `done`, then the element's own
+   hover/colour/border/shadow transitions resume with their exact timing */
+[data-reveal][data-rise]:not([data-rise="done"]) {
+  transition-property: opacity, translate !important;
+  transition-duration: var(--bs-duration), var(--bs-duration) !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: var(--bs-delay), var(--bs-delay) !important;
+}
+
+[data-rise][data-rise][data-rise="wait"],
+[data-rise][data-rise][data-rise="hide"] {
+  opacity: 0;
+  translate: 0 var(--bs-travel);
+}
+
+/* Hidden without animating into the hidden state (see the controller) */
+[data-reveal][data-rise="hide"]:not([data-rise="done"]) {
+  transition: none !important;
+}
+
+[data-reveal][data-rise="risen"] {
+  translate: 0 0;
+}
+
+/*
+ * Fail-visible for the server-rendered hidden element: if the controller has not
+ * taken it over (it sets data-rise-armed) within 5s, show it.
+ */
+[data-reveal][data-rise="wait"]:not([data-rise-armed]) {
+  animation: bsRiseFailsafe 0.01s 5s forwards;
+}
+
+@keyframes bsRiseFailsafe {
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (scripting: none) {
+  [data-reveal][data-rise] {
+    opacity: 1 !important;
+    translate: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}

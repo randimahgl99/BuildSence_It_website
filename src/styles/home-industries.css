@@ -1,0 +1,342 @@
+/*
+ * Home "Industries accordion". Source: mockup L5611-5860 (the
+ * `buildsense-home-industries-hover-accordion-styles` block) over the dark-theme
+ * colours at L7295 / L12229. Computed values were read from the rendered
+ * mockup at 14 viewports (AUDIT R1). Breakpoints are the mockup's own:
+ * 980, 767 (+ touch / no-hover), 620.
+ *
+ * State is data attributes set by React: `[data-active]` on a row and
+ * `[data-visible]` / `[data-shown]` on the floating photo. The photo's vertical
+ * position is `--industry-preview-y`, written by lib/industryPreview.ts.
+ */
+.bs-ind {
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-ind-list {
+  position: relative;
+  display: block;
+  margin-top: 34px;
+  border-top: 1px solid var(--color-stroke);
+  isolation: isolate;
+}
+
+.bs-ind-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  gap: 0 16px;
+  margin: 0;
+  padding: 17px 4px;
+  border-bottom: 1px solid var(--color-stroke);
+  background: transparent;
+  color: #eff5ff;
+  font-family: var(--font-heading);
+  font-size: clamp(27px, 4vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  cursor: default;
+  transition:
+    padding 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    color 0.3s ease;
+}
+
+.bs-ind-trigger {
+  display: block;
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.bs-ind-title {
+  display: block;
+  color: #eff5ff;
+  transition:
+    color 0.32s ease,
+    opacity 0.3s ease;
+}
+
+.bs-ind-row[data-active] .bs-ind-title {
+  color: var(--color-blue-light);
+}
+
+/* Panel: 0fr -> 1fr height, then the copy rises in (CSS only). */
+.bs-ind-panel {
+  grid-column: 1;
+  grid-row: 2;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 0.54s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.37s ease,
+    visibility 0s linear 0.4s;
+}
+
+.bs-ind-panel-inner {
+  min-height: 0;
+  max-width: min(55%, 530px);
+  overflow: hidden;
+}
+
+.bs-ind-panel-inner p {
+  margin: 10px 0 12px;
+  color: #c7d4d0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: normal;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.39s ease,
+    transform 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bs-ind-row[data-active] .bs-ind-panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease 0.07s,
+    visibility 0s;
+}
+
+.bs-ind-row[data-active] .bs-ind-panel-inner p {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.bs-ind-explore {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 0 8px 6px;
+  border: 0;
+  background: none;
+  color: #eff5ff;
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.bs-ind-explore span {
+  color: inherit;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 500;
+  transition: transform 0.28s ease;
+}
+
+.bs-ind-row[data-active] .bs-ind-explore {
+  color: var(--color-blue-light);
+}
+
+.bs-ind-row[data-active] .bs-ind-explore span {
+  transform: translate(2px, -2px);
+}
+
+.bs-ind-trigger:focus-visible,
+.bs-ind-explore:focus-visible {
+  outline: 2px solid var(--color-blue-light);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+
+/* Desktop floating photo: follows the active row, crossfades between two layers. */
+.bs-ind-preview {
+  --industry-preview-y: 0px;
+  position: absolute;
+  top: 0;
+  right: clamp(88px, 11vw, 150px);
+  bottom: auto;
+  left: auto;
+  z-index: 8;
+  display: block;
+  width: 240px;
+  height: 158px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  background: none;
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, calc(var(--industry-preview-y) + 18px), 0) rotate(-8deg) scale(0.92);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.26s ease,
+    visibility 0s linear 0.3s;
+  will-change: transform;
+}
+
+.bs-ind-preview[data-visible] {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, var(--industry-preview-y), 0) rotate(-3deg) scale(1);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.5s ease 0.08s,
+    visibility 0s;
+}
+
+.bs-ind-float {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: translateY(10px) scale(0.94) rotate(-3deg);
+  transition:
+    opacity 0.27s ease,
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bs-ind-float[data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+.bs-ind-inline {
+  display: none;
+}
+
+@media (max-width: 980px) {
+  .bs-ind-preview {
+    right: clamp(80px, 10vw, 105px);
+    width: 200px;
+    height: 135px;
+  }
+
+  .bs-ind-panel-inner {
+    max-width: 53%;
+  }
+}
+
+/* Narrow or touch: no floating photo; the photo opens inline under the copy. */
+@media (max-width: 767px), (hover: none), (pointer: coarse) {
+  .bs-ind-preview {
+    display: none;
+  }
+
+  .bs-ind-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+    padding: 16px 4px;
+  }
+
+  .bs-ind-panel-inner {
+    max-width: 100%;
+  }
+
+  .bs-ind-inline {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.51s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.35s ease;
+  }
+
+  .bs-ind-inline > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .bs-ind-inline img {
+    display: block;
+    width: min(100%, 340px);
+    height: auto;
+    max-height: 215px;
+    margin: 10px 0 6px;
+    aspect-ratio: 3 / 2;
+    border-radius: 15px;
+    object-fit: cover;
+    transform: translateY(12px) scale(0.96);
+    transition: transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .bs-ind-row[data-active] .bs-ind-inline {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  /* The photo mounts the first time its row opens, so it has no "closed" style to
+     transition from; the keyframe supplies the same rise/scale-in on every open. */
+  .bs-ind-row[data-active] .bs-ind-inline img {
+    transform: none;
+    animation: bsIndInlineIn 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@keyframes bsIndInlineIn {
+  from {
+    transform: translateY(12px) scale(0.96);
+  }
+}
+
+@media (max-width: 620px) {
+  .bs-ind-row {
+    font-size: clamp(23px, 7.2vw, 30px);
+  }
+
+  .bs-ind-explore {
+    padding-left: 2px;
+    font-size: 14px;
+  }
+
+  .bs-ind-explore span {
+    font-size: 14px;
+  }
+
+  .bs-ind-panel-inner p {
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-ind-row,
+  .bs-ind-title,
+  .bs-ind-panel,
+  .bs-ind-panel-inner p,
+  .bs-ind-explore,
+  .bs-ind-explore span,
+  .bs-ind-inline,
+  .bs-ind-inline img,
+  .bs-ind-preview,
+  .bs-ind-float {
+    transition-duration: 0.01ms !important;
+    animation: none !important;
+  }
+}

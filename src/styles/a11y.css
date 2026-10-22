@@ -1,0 +1,29 @@
+/*
+ * Skip link: first tab stop on every page, off-screen until focused. Sits above
+ * the fixed navbar (z-index 1000) and the mobile panel (1100).
+ */
+.bs-skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 2300;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #f7f9fc;
+  color: #080b0d;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+  transform: translateY(calc(-100% - 24px));
+}
+
+.bs-skip-link:focus-visible {
+  transform: none;
+  outline: 3px solid #367fff;
+  outline-offset: 2px;
+}
+
+/* The skip link focuses <main> programmatically; it is not a control, so no ring. */
+main:focus {
+  outline: none;
+}

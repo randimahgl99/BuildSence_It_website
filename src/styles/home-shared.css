@@ -1,0 +1,30 @@
+/*
+ * Shared Home section headings (mockup `.section-title` / `.sub`, effective
+ * values read from the rendered mockup at 15 viewports, AUDIT R1). The H2 is
+ * Georgia (a system serif that the mockup never loads), not Manrope, because a
+ * later dark-theme rule (L12078) wins the cascade.
+ */
+.bs-section-title {
+  margin: 0 0 16px;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 4.6vw, 56px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+@media (max-width: 620px) {
+  .bs-section-title {
+    font-size: 40px;
+  }
+}
+
+.bs-section-sub {
+  max-width: 720px;
+  margin: 19px 0;
+  color: var(--color-copy);
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 1.65;
+}

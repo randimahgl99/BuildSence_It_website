@@ -1,0 +1,44 @@
+/*
+ * About-style reveal (AUDIT 4.9; mockup L13229-13253 and L11948-11979). Driven
+ * by components/motion/AboutReveal.tsx through `data-reveal-state`.
+ *
+ * opacity + transform only; .85s with the shared easing. The per-element
+ * stagger is an inline `transition-delay` set by the controller. Like the
+ * mockup, the transition stays on the element after the entrance (an element's
+ * own hover rule can only add to it).
+ */
+[data-about-reveal] {
+  transition:
+    opacity 0.85s var(--ease-reveal),
+    transform 0.85s var(--ease-reveal);
+}
+
+[data-about-reveal][data-reveal-state="wait"] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/*
+ * Fail-visible for the server-rendered hidden targets: if the controller has not
+ * taken them over (it sets data-reveal-armed) within 5s, show them. Cancelled
+ * the moment the controller arms them.
+ */
+[data-about-reveal][data-reveal-state="wait"]:not([data-reveal-armed]) {
+  animation: bsRevealFailsafe 0.01s 5s forwards;
+}
+
+@keyframes bsRevealFailsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-about-reveal] {
+    transition: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

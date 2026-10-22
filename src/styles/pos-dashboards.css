@@ -1,0 +1,361 @@
+/*
+ * POS "Live system previews" marquee + POS FAQ shell. Source: mockup L2515-2800
+ * (first dashboard block), L8609-8945 (marquee v2 + FAQ) and the dark-theme
+ * overrides at L12038 / L12349; the values below are what the rendered mockup
+ * computes (AUDIT R1), not source order. Notable cascade results:
+ *  - the section is #080b0d with no curve (dark-theme rule), the later 74s / 78s
+ *    animation wins at every width, and the late "full screenshot" block makes the
+ *    card 28vw wide (340-470px; 48vw / 320-430px up to 900; 84vw up to 600),
+ *  - each screenshot is its natural height, anchored at the top of the card and
+ *    clipped by the media frame.
+ * Breakpoints: 900 (cards, gaps), 620 (section, edge fades), 600 (cards, mask).
+ */
+#pos-dashboards {
+  /* Home's "Explore Our Work" lands here (/pos#pos-dashboards) */
+  scroll-margin-top: calc(var(--bs-hero-header-height) + 22px);
+  position: relative;
+  z-index: 6;
+  overflow: hidden;
+  padding: 100px 0 110px;
+  background-color: var(--color-page);
+  color: var(--color-title);
+}
+
+/* Faint star dots */
+#pos-dashboards::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.38;
+  background-image:
+    radial-gradient(circle at 11% 18%, rgba(127, 176, 255, 0.58) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 78% 12%, rgba(127, 176, 255, 0.48) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 42% 34%, rgba(127, 176, 255, 0.35) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 91% 56%, rgba(127, 176, 255, 0.4) 0 1px, transparent 1.6px),
+    radial-gradient(circle at 24% 72%, rgba(127, 176, 255, 0.32) 0 1px, transparent 1.6px);
+}
+
+@media (max-width: 620px) {
+  #pos-dashboards {
+    padding: 78px 0 88px;
+  }
+}
+
+/* ---- Heading ---- */
+.bs-pos-dash-heading {
+  position: relative;
+  z-index: 2;
+  width: min(900px, calc(100% - 34px));
+  margin: 0 auto 52px;
+  text-align: center;
+}
+
+@media (max-width: 620px) {
+  .bs-pos-dash-heading {
+    margin-bottom: 35px;
+  }
+}
+
+.bs-pos-dash-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  margin-bottom: 17px;
+  padding: 0 15px;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: rgba(0, 144, 255, 0.12);
+  color: var(--color-blue-light);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.14em;
+}
+
+.bs-pos-dash-heading h2 {
+  margin: 0 0 12px;
+  color: #eff5ff;
+  font-family: var(--font-serif);
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-pos-dash-heading p {
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--color-copy);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ---- Rows ---- */
+.bs-pos-dash-row {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  padding: 15px 0 24px;
+  isolation: isolate;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 4.5%, #000 95.5%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 4.5%, #000 95.5%, transparent 100%);
+}
+
+.bs-pos-dash-row + .bs-pos-dash-row {
+  margin-top: 10px;
+}
+
+/* Soft side fades keep the loop visually seamless */
+.bs-pos-dash-row::before,
+.bs-pos-dash-row::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 7;
+  width: 7vw;
+  pointer-events: none;
+}
+
+.bs-pos-dash-row::before {
+  left: 0;
+  background: linear-gradient(90deg, #111519, transparent);
+}
+
+.bs-pos-dash-row::after {
+  right: 0;
+  background: linear-gradient(-90deg, #111519, transparent);
+}
+
+/*
+ * Two identical groups side by side; the keyframes (keyframes.css) move the track
+ * by exactly one group + the 18px track gap (-50% - 9px), so the loop is seamless.
+ * will-change only here, on the two tracks. Off-screen / hidden-tab pausing comes
+ * from MotionGate (styles/motion-gate.css).
+ */
+.bs-pos-dash-track {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  will-change: transform;
+}
+
+.bs-pos-dash-row[data-direction="left"] .bs-pos-dash-track {
+  animation: posMarqueeLeft 74s linear infinite;
+}
+
+.bs-pos-dash-row[data-direction="right"] .bs-pos-dash-track {
+  animation: posMarqueeRight 78s linear infinite;
+}
+
+/* Hover pauses only that row, and only with a real pointer (a tap would stick :hover) */
+@media (hover: hover) and (pointer: fine) {
+  .bs-pos-dash-row:hover .bs-pos-dash-track {
+    animation-play-state: paused;
+  }
+}
+
+/* A selected card pauses its row (controller: data-paused) */
+.bs-pos-dash-row[data-paused] .bs-pos-dash-track {
+  animation-play-state: paused;
+}
+
+.bs-pos-dash-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  gap: 20px;
+  padding-right: 20px;
+}
+
+/* ---- Cards ---- */
+.bs-pos-dash-card {
+  position: relative;
+  flex: 0 0 clamp(340px, 28vw, 470px);
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--color-stroke);
+  border-radius: 18px;
+  background: #202a34;
+  box-shadow: 0 15px 36px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  outline: none;
+  transform: translateZ(0);
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    border-color 0.28s ease;
+}
+
+/* Keyboard focus and the selected card share the "zoom" look */
+.bs-pos-dash-card:focus-visible,
+.bs-pos-dash-card[data-selected] {
+  z-index: 6;
+  transform: translateY(-5px) scale(1.035);
+  border-color: rgba(127, 176, 255, 0.58);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.34);
+  filter: brightness(1.035);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bs-pos-dash-card:hover {
+    z-index: 5;
+    transform: translateY(-8px) scale(1.035);
+    border-color: var(--color-blue-interactive);
+    box-shadow: 0 26px 60px rgba(0, 144, 255, 0.25);
+    filter: brightness(1.035);
+  }
+}
+
+/* While one card is selected, the other cards in that paused row step back */
+.bs-pos-dash-row[data-paused] .bs-pos-dash-card:not([data-selected]) {
+  opacity: 0.72;
+  filter: brightness(0.76);
+}
+
+.bs-pos-dash-row[data-paused] .bs-pos-dash-card[data-selected] {
+  opacity: 1;
+  filter: brightness(1.04);
+}
+
+.bs-pos-dash-bar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border-bottom: 1px solid var(--color-stroke);
+  border-radius: 17px 17px 0 0;
+  background: var(--color-card);
+}
+
+.bs-pos-dash-bar span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-blue-interactive);
+}
+
+.bs-pos-dash-media {
+  position: absolute;
+  top: 28px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: 0 0 17px 17px;
+  background: var(--color-inset);
+}
+
+/* Natural height from the top; the media frame crops the rest (mockup L2738) */
+.bs-pos-dash-media img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: #eff5ff;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  .bs-pos-dash-group {
+    gap: 16px;
+    padding-right: 16px;
+  }
+
+  .bs-pos-dash-card {
+    flex-basis: clamp(320px, 48vw, 430px);
+  }
+}
+
+@media (max-width: 620px) {
+  .bs-pos-dash-row::before,
+  .bs-pos-dash-row::after {
+    width: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .bs-pos-dash-row {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  }
+
+  .bs-pos-dash-group {
+    gap: 13px;
+    padding-right: 13px;
+  }
+
+  .bs-pos-dash-card {
+    flex-basis: 84vw;
+  }
+}
+
+/*
+ * Reduced motion: no animation, only the first group, a static strip. The mockup
+ * meant this to be a horizontally scrollable strip (L2707) but a later
+ * `overflow:hidden` won the cascade, which left the 3rd/4th card unreachable on
+ * narrow screens; the strip scrolls (scrollbar hidden) so every card is reachable.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .bs-pos-dash-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-mask-image: none;
+    mask-image: none;
+    scrollbar-width: none;
+  }
+
+  .bs-pos-dash-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bs-pos-dash-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .bs-pos-dash-group[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ---- POS FAQ (shares .bs-faq-* from faq.css) ---- */
+/*
+ * Mockup L8867: sits 34px over the dashboards section, taller bottom padding.
+ * The POS cards use the shared card colour (#171e24, L12282) where Home's are
+ * #151719, and an open answer is brighter (#eff5ff, L8903).
+ */
+.bs-pos-faq {
+  z-index: 7;
+  overflow: visible;
+  margin-top: -34px;
+  padding-bottom: 110px;
+}
+
+.bs-pos-faq .bs-faq-item {
+  background: var(--color-card);
+}
+
+.bs-pos-faq .bs-faq-item[data-open] p {
+  color: #eff5ff;
+}
+
+@media (max-width: 620px) {
+  .bs-pos-faq {
+    margin-top: -24px;
+    padding-top: 76px;
+    padding-bottom: 85px;
+  }
+}

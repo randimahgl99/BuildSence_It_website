@@ -1,0 +1,221 @@
+/*
+ * POS "Power explorer" (mockup `.pos-power-section`: L8342; the rendered look is
+ * the dark-theme outline at L12178 / L12439 / L12610, not the light source CSS).
+ * Values read from the rendered mockup at 22 viewports (AUDIT R1).
+ *
+ * Sticky (R5): nothing between the nav and the viewport may set `overflow`
+ * (body only has overflow-x). The nav is `position: sticky` down to 721px; at
+ * <= 720px it becomes a horizontal pill bar that is still sticky (top 72).
+ * Breakpoints: 980 (narrower columns), 720 (pill bar, 1-col cards), 700 (topic padding).
+ */
+.bs-pos-power {
+  position: relative;
+  z-index: 5;
+  margin-top: -34px;
+  padding: 105px 0 130px;
+  background: var(--color-page);
+}
+
+.bs-pos-power-heading {
+  margin: 0 0 70px;
+}
+
+.bs-pos-power-heading h2 {
+  max-width: 780px;
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 5.6vw, 78px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-pos-power-layout {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  align-items: start;
+  gap: 72px;
+}
+
+/* ---- Sticky nav ---- */
+.bs-pos-power-nav {
+  position: sticky;
+  top: 118px;
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  padding: 4px 0;
+  border-left: 1px solid var(--color-copy);
+}
+
+.bs-pos-power-nav-item {
+  position: relative;
+  width: 100%;
+  padding: 12px 0 12px 18px;
+  border: 0;
+  background: transparent;
+  color: var(--color-copy);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* The 2px active marker sits on top of the nav's 1px rail */
+.bs-pos-power-nav-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: transparent;
+  transition: background 0.25s ease;
+}
+
+/* No hover colour: the mockup's dark-theme `:not(.active)` rule cancels its hover rule */
+.bs-pos-power-nav-item[data-active] {
+  color: var(--color-title);
+  font-weight: 700;
+}
+
+.bs-pos-power-nav-item[data-active]::before {
+  background: var(--color-accent);
+}
+
+/* ---- Topic cards ---- */
+.bs-pos-power-content {
+  min-width: 0;
+}
+
+.bs-pos-power-topic {
+  scroll-margin-top: 115px;
+  margin: 0 0 24px;
+  padding: 32px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 20px;
+}
+
+.bs-pos-power-topic:last-child {
+  margin-bottom: 0;
+}
+
+.bs-pos-power-topic > h3 {
+  margin: 0 0 34px;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 3vw, 46px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.bs-pos-power-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 38px 56px;
+}
+
+.bs-pos-power-grid h4 {
+  margin: 0 0 7px;
+  color: var(--color-title);
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.bs-pos-power-grid p {
+  margin: 0;
+  color: var(--color-copy);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .bs-pos-power-layout {
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 42px;
+  }
+
+  .bs-pos-power-grid {
+    column-gap: 34px;
+  }
+}
+
+@media (max-width: 720px) {
+  .bs-pos-power {
+    margin-top: -24px;
+    padding: 78px 0 90px;
+  }
+
+  .bs-pos-power-heading {
+    margin-bottom: 42px;
+  }
+
+  .bs-pos-power-layout {
+    display: block;
+  }
+
+  /* Horizontal pill bar; the light strip is the mockup's own look */
+  .bs-pos-power-nav {
+    top: 72px;
+    z-index: 8;
+    flex-direction: row;
+    gap: 6px;
+    overflow-x: auto;
+    margin: 0 -12px 38px;
+    padding: 10px 12px;
+    border-left: 0;
+    background: rgba(249, 250, 247, 0.94);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    scrollbar-width: none;
+  }
+
+  .bs-pos-power-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .bs-pos-power-nav-item {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 9px 12px;
+    border: 1px solid var(--color-copy);
+    border-radius: 999px;
+    background: #fff;
+    /* #3b4a5e on white is 9:1; the desktop --color-copy is 2:1 on these white pills */
+    color: #3b4a5e;
+    white-space: nowrap;
+  }
+
+  .bs-pos-power-nav-item::before {
+    display: none;
+  }
+
+  .bs-pos-power-nav-item[data-active] {
+    border-color: var(--color-accent-aa);
+    background: var(--color-accent-aa);
+  }
+
+  .bs-pos-power-grid {
+    grid-template-columns: 1fr;
+    row-gap: 28px;
+  }
+
+  .bs-pos-power-topic {
+    scroll-margin-top: 138px;
+  }
+}
+
+@media (max-width: 700px) {
+  .bs-pos-power-topic {
+    padding: 22px;
+  }
+}

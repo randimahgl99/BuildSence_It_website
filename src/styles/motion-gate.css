@@ -1,0 +1,27 @@
+/*
+ * Animation-clock gating (mockup L13692-13715). Only suspends the animation
+ * clock; layout, opacity, colours and assets are untouched, and a paused
+ * timeline resumes from the same frame. Driven by MotionGate, which sets:
+ *   data-bs-offscreen   on `main section` / [data-motion-gate] while > 80px off-screen
+ *   data-bs-tab-hidden  on <html> while the tab is hidden
+ * The mockup's `.page:not(.active)` rule has no equivalent: inactive pages are
+ * not mounted.
+ */
+html[data-bs-tab-hidden] main,
+html[data-bs-tab-hidden] main *,
+html[data-bs-tab-hidden] main *::before,
+html[data-bs-tab-hidden] main *::after,
+html[data-bs-tab-hidden] [data-motion-gate],
+html[data-bs-tab-hidden] [data-motion-gate] *,
+html[data-bs-tab-hidden] [data-motion-gate] *::before,
+html[data-bs-tab-hidden] [data-motion-gate] *::after,
+main section[data-bs-offscreen],
+main section[data-bs-offscreen] *,
+main section[data-bs-offscreen] *::before,
+main section[data-bs-offscreen] *::after,
+[data-motion-gate][data-bs-offscreen],
+[data-motion-gate][data-bs-offscreen] *,
+[data-motion-gate][data-bs-offscreen] *::before,
+[data-motion-gate][data-bs-offscreen] *::after {
+  animation-play-state: paused !important;
+}

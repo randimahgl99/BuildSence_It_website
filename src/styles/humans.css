@@ -1,0 +1,305 @@
+/*
+ * Humans page (mockup `#buildsense-humans-scoped-styles` L13119-13168). Values are
+ * the resolved result of the cascade, read from the rendered mockup (AUDIT R1).
+ * The H1 is Georgia (not loaded; system serif), as in the mockup.
+ * Breakpoints: 900 (2 columns), 600 (1 column).
+ *
+ * Not ported (dead in the rendered mockup): the `bsHumanEntry` card keyframe
+ * (the About-style reveal replaces it, mockup L13245).
+ */
+.bs-humans {
+  min-height: 100vh;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-humans-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(76px, 9vw, 132px) 26px 155px;
+}
+
+.bs-humans-hero {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.bs-humans-hero h1 {
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(54px, 6.8vw, 96px);
+  font-weight: 400;
+  /* The mockup's generic `main > .page h1` rule (line-height 1.06, letter-spacing
+     -.058em !important) out-specifies the page's own .99 / -.055em / -.048em */
+  line-height: 1.06;
+  letter-spacing: -0.058em;
+}
+
+.bs-humans-hero h1 span {
+  background: linear-gradient(180deg, #f7f9fc 15%, #aeb7c3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bs-humans-hero > p {
+  max-width: 530px;
+  margin: 27px auto 0;
+  color: var(--color-copy);
+  font-family: var(--font-sans);
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.65;
+}
+
+.bs-humans-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+/* Dark reference-CTA surface (mockup `.btn.bs-ref-motion-cta`, effective values), light fill on hover */
+.bs-humans-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 43px;
+  padding: 0 19px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 16px;
+  background: var(--color-card);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.055),
+    0 3px 14px rgba(0, 0, 0, 0.12);
+  color: #f6f6f6;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease-reveal),
+    color 0.3s var(--ease-reveal),
+    border-color 0.3s var(--ease-reveal),
+    box-shadow 0.3s var(--ease-reveal);
+}
+
+.bs-humans-add:hover,
+.bs-humans-add:focus-visible {
+  border-color: var(--color-cta-hover-bg);
+  background: var(--color-cta-hover-bg);
+  box-shadow: var(--shadow-cta-glow);
+  color: var(--color-cta-hover-text);
+}
+
+.bs-humans-add:focus-visible {
+  outline: 2px solid #8edcc0;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-humans-add {
+    transition: none;
+  }
+}
+
+.bs-humans-search-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: 225px;
+  max-width: 100%;
+  height: 43px;
+  padding: 0 13px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 16px;
+  background: rgba(14, 20, 29, 0.42);
+  color: #75859a;
+  transition: border-color 0.25s ease;
+}
+
+.bs-humans-search-wrap:focus-within {
+  border-color: var(--color-blue-light);
+}
+
+.bs-humans-search-wrap input {
+  width: 100%;
+  min-width: 0;
+  /* Browser-default input padding (Tailwind's reset zeroes it) and the dark-theme field fill */
+  padding: 1px 2px;
+  border: 0;
+  outline: 0;
+  background: #0e141d;
+  color: var(--color-title);
+  font: 13px var(--font-sans);
+}
+
+.bs-humans-search-wrap input::placeholder {
+  color: #75859a;
+  opacity: 1;
+}
+
+.bs-humans-search-wrap input::-webkit-search-cancel-button {
+  cursor: pointer;
+}
+
+.bs-humans-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Grid: 3-3-1, last card centred ---------- */
+.bs-humans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  justify-items: center;
+  column-gap: 80px;
+  row-gap: 67px;
+  max-width: 990px;
+  margin: 105px auto 0;
+}
+
+.bs-humans-member {
+  width: 100%;
+  min-width: 0;
+  max-width: 210px;
+  text-align: center;
+}
+
+.bs-humans-member[hidden] {
+  display: none !important;
+}
+
+.bs-humans-member.bs-last-alone {
+  grid-column: 2;
+}
+
+.bs-humans-avatar {
+  position: relative;
+  display: block;
+  width: clamp(132px, 11.8vw, 156px);
+  aspect-ratio: 1;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border: 1px solid var(--color-stroke);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 36% 23%, #202a34, #0e141d 70%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition:
+    transform 0.34s var(--ease-reveal),
+    border-color 0.34s,
+    box-shadow 0.34s;
+}
+
+.bs-humans-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.bs-humans-member:hover .bs-humans-avatar {
+  transform: scale(1.045);
+  border-color: #6385b5;
+  box-shadow: 0 10px 28px rgba(0, 60, 160, 0.12);
+}
+
+/* The mockup's generic `main > .page h2` rule wins over the page's own Inter 600 / 1.5 /
+   -.01em: names render in Georgia 400 with its 1.16 line-height and -.045em tracking */
+.bs-humans-member h2 {
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-humans-member p {
+  margin: 2px 0 0;
+  color: #75859a;
+  font: 400 12px/1.5 var(--font-sans);
+}
+
+.bs-humans-empty {
+  margin: 88px auto 0;
+  color: var(--color-copy);
+  font-size: 15px;
+  text-align: center;
+}
+
+.bs-humans-empty[hidden] {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .bs-humans-shell {
+    padding-top: 96px;
+  }
+
+  .bs-humans-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 52px 28px;
+    max-width: 660px;
+    margin-top: 75px;
+  }
+
+  .bs-humans-member.bs-last-alone {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .bs-humans-shell {
+    padding: 95px 18px 100px;
+  }
+
+  .bs-humans-hero h1 {
+    font-size: clamp(43px, 10.7vw, 62px);
+  }
+
+  .bs-humans-hero > p {
+    margin-top: 21px;
+    font-size: 14px;
+  }
+
+  .bs-humans-search-wrap {
+    width: min(100%, 240px);
+  }
+
+  .bs-humans-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 44px;
+    margin-top: 67px;
+  }
+
+  .bs-humans-member.bs-last-alone {
+    grid-column: auto;
+  }
+
+  .bs-humans-avatar {
+    width: 125px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-humans-avatar {
+    transition: none !important;
+  }
+}

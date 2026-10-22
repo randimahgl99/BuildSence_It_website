@@ -1,0 +1,201 @@
+/*
+ * Home "Why" (#why-home). Mockup L275 (base), L6819-6925 (full-bleed visual),
+ * L7308-7316 (dark item colours), read as computed values from the rendered
+ * mockup at 8 viewports (AUDIT R1). Breakpoints are the mockup's own: 980, 620.
+ *
+ * `position: sticky` on the visual needs no ancestor with `overflow` (AUDIT R5):
+ * nothing between .bs-why-visual and <body> sets one.
+ */
+.bs-why {
+  position: relative;
+  z-index: 4;
+  padding: 100px 0;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+@media (max-width: 620px) {
+  .bs-why {
+    padding: 72px 0;
+  }
+}
+
+.bs-why-scroll {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 54px;
+  margin-top: 42px;
+}
+
+.bs-why-list {
+  display: grid;
+  gap: 20vh;
+}
+
+.bs-why-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 34vh;
+  padding-left: 26px;
+  border-left: 3px solid var(--color-stroke);
+  transition: 0.3s;
+}
+
+.bs-why-item[data-active] {
+  border-left-color: var(--color-accent);
+}
+
+.bs-why-item-title {
+  margin: 8px 0 12px;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(31px, 4.2vw, 52px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.bs-why-item-copy {
+  max-width: 530px;
+  margin: 17px 0;
+  color: var(--color-copy);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* ---- Sticky visual ---- */
+.bs-why-visual {
+  position: sticky;
+  top: 120px;
+  height: 510px;
+  overflow: hidden;
+  border-radius: 30px;
+  box-shadow: 0 24px 55px rgba(17, 17, 17, 0.18);
+  color: #fff;
+}
+
+/*
+ * Four stacked slides: swapping is a visibility flip, never a src assignment.
+ * `visibility`, not `display:none`, because a display:none <img loading=lazy>
+ * is never fetched.
+ */
+.bs-why-slide {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+
+.bs-why-slide[data-active] {
+  visibility: visible;
+}
+
+.bs-why-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 30px;
+}
+
+.bs-why-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  background: linear-gradient(
+    to top,
+    rgba(25, 28, 32, 0.82) 0%,
+    rgba(25, 28, 32, 0.56) 28%,
+    rgba(25, 28, 32, 0.16) 52%,
+    rgba(25, 28, 32, 0) 72%
+  );
+  pointer-events: none;
+}
+
+.bs-why-label {
+  color: var(--color-copy);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.6;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Manrope at 400: the mockup asks for 400 but only 600+ is loaded, so it snaps (AUDIT §0.8) */
+.bs-why-title {
+  margin-top: 5px;
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.1;
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.42);
+}
+
+/* Swap animations, enabled only after the first change (see WhyScroller) */
+.bs-why-visual[data-swapped] .bs-why-slide[data-active] .bs-why-image {
+  animation: whyImageIn 0.34s ease;
+}
+
+.bs-why-visual[data-swapped] .bs-why-title {
+  animation: stageIn 0.28s ease;
+}
+
+@media (max-width: 980px) {
+  .bs-why-scroll {
+    grid-template-columns: 1fr;
+  }
+
+  .bs-why-list {
+    gap: 40px;
+  }
+
+  .bs-why-item {
+    min-height: auto;
+    padding: 34px 0 34px 20px;
+  }
+
+  .bs-why-visual {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .bs-why-visual {
+    height: 410px;
+    border-radius: 24px;
+  }
+
+  .bs-why-image {
+    border-radius: 24px;
+  }
+
+  .bs-why-overlay {
+    padding: 22px;
+  }
+
+  .bs-why-title {
+    font-size: 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-why-item {
+    transition: none;
+  }
+
+  .bs-why-visual[data-swapped] .bs-why-slide[data-active] .bs-why-image,
+  .bs-why-visual[data-swapped] .bs-why-title {
+    animation: none;
+  }
+}

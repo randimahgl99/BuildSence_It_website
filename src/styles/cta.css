@@ -1,0 +1,56 @@
+/*
+ * Reference CTA button (mockup `.bs-ref-motion-cta`, effective values read
+ * from the rendered mockup, AUDIT §3.1). Dark surface at rest, light fill on
+ * hover/focus. Used by the navbar, the mobile menu and the hero CTAs.
+ *
+ * The mockup's generated chevron is removed by a later rule in the mockup
+ * (`content:none`), so it is not ported.
+ */
+.cta-ref {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 25px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 18px;
+  background-color: rgba(6, 15, 27, 0.4);
+  color: #f6f6f6;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.065),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 3px 14px rgba(0, 0, 0, 0.12);
+  transition:
+    background-color 0.3s var(--ease-reveal),
+    color 0.3s var(--ease-reveal),
+    border-color 0.3s var(--ease-reveal),
+    box-shadow 0.3s var(--ease-reveal);
+}
+
+.cta-ref:hover,
+.cta-ref:focus-visible {
+  background-color: var(--color-cta-hover-bg);
+  border-color: var(--color-cta-hover-bg);
+  color: var(--color-cta-hover-text);
+  box-shadow: var(--shadow-cta-glow);
+}
+
+.cta-ref:focus-visible {
+  outline: 2px solid #8edcc0;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-ref {
+    transition: none;
+  }
+}

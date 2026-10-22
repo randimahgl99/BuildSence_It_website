@@ -1,0 +1,243 @@
+@import "tailwindcss";
+@import "../styles/keyframes.css";
+@import "../styles/a11y.css";
+@import "../styles/cta.css";
+@import "../styles/navbar.css";
+@import "../styles/footer.css";
+@import "../styles/floating-contact.css";
+@import "../styles/motion-gate.css";
+@import "../styles/home-hero.css";
+@import "../styles/home-shared.css";
+@import "../styles/home-capabilities.css";
+@import "../styles/home-onboarding.css";
+@import "../styles/home-why.css";
+@import "../styles/home-ai.css";
+@import "../styles/home-industries.css";
+@import "../styles/home-stories.css";
+@import "../styles/faq.css";
+@import "../styles/about-reveal.css";
+@import "../styles/premium-reveal.css";
+@import "../styles/about.css";
+@import "../styles/humans.css";
+@import "../styles/contact.css";
+@import "../styles/toaster.css";
+@import "../styles/pos-hero.css";
+@import "../styles/pos-connected.css";
+@import "../styles/pos-showcase.css";
+@import "../styles/pos-power.css";
+@import "../styles/pos-dashboards.css";
+@import "../styles/industries-shared.css";
+@import "../styles/industries-hero.css";
+@import "../styles/industries-cards.css";
+@import "../styles/industries-realops.css";
+@import "../styles/industries-ecosystem.css";
+@import "../styles/industries-connected.css";
+@import "../styles/industries-faq.css";
+
+/*
+ * Design tokens — values from mockup/index.html as resolved by the full cascade
+ * (buildsense-it-docs/AUDIT.md §2). The effective site is dark.
+ */
+@theme {
+  /* Colors */
+  --color-page: #080b0d; /* page, navbar, footer, mega menu, hero fallback */
+  --color-card: #171e24; /* cards, faq items, secondary CTA */
+  --color-inset: #0e141d;
+  --color-stroke: #303c48; /* borders */
+  --color-title: #f7f9fc;
+  --color-copy: #a9b8cc; /* body / muted text, nav links */
+  --color-accent: #0090ff; /* eyebrows, active states */
+  --color-blue-primary: #0d65ff; /* gradient CTAs */
+  --color-blue-interactive: #367fff; /* focus rings, slideshow outline, dots */
+  --color-blue-light: #7fb0ff; /* hover link color, labels */
+  --color-blue-deep: #0b3ca8; /* CTA gradient start, AI gradients */
+  --color-hero-accent: #76b6ff; /* hero rotating word */
+  --color-cta-hover-bg: #f2f2f2; /* .bs-ref-motion-cta hover */
+  --color-cta-hover-text: #17191b;
+  --color-online: #36d69a; /* footer status dot only */
+  --color-footer-text: #f2f2f2;
+  --color-footer-divider: #363636;
+  --color-footer-rule: #393939;
+  --color-about-bg: #080909; /* #page-about only */
+  --color-about-ink: #f4f4f2;
+  --color-about-muted: #97999a;
+
+  /* Fonts (variables are set by next/font in layout.tsx) */
+  --font-sans: var(--font-inter), Arial, sans-serif;
+  --font-heading: var(--font-manrope), "Inter", Arial, sans-serif;
+  /* About / Humans / client-stories headings: system Georgia, never loaded */
+  --font-serif: Georgia, "Times New Roman", serif;
+  /* Footer wordmark: mockup never loads this family, so it renders as
+     Impact / Arial Narrow depending on OS. Kept identical pending AUDIT Q9. */
+  --font-wordmark: "Noto Sans Display ExtraCondensed", Impact, "Arial Narrow", sans-serif;
+
+  /* Radii (mockup uses many ad-hoc values; use arbitrary values for the rest) */
+  --radius-cta: 16px; /* primary CTA is not a pill */
+  --radius-card: 24px; /* mockup --radius */
+
+  /* Shadows */
+  --shadow-card: 0 16px 42px rgba(17, 17, 17, 0.1);
+  --shadow-cta-glow: 0 0 19px rgba(255, 255, 255, 0.2), 0 5px 20px rgba(0, 0, 0, 0.16);
+  --shadow-blue-glow: 0 14px 28px rgba(0, 144, 255, 0.1);
+
+  /* Spacing */
+  --spacing-section: 100px; /* .section padding; 72px at <= 620px */
+  --spacing-section-sm: 72px;
+  --container-site: 1180px; /* .container max width */
+  --container-nav: 1200px;
+
+  /* Easing used by reveals and CTAs */
+  --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /*
+   * Breakpoints. The mockup is desktop-first (max-width), so only max-* variants
+   * should be used (e.g. max-phone:, max-nav:). Tailwind's mobile-first defaults
+   * are removed on purpose.
+   * Tailwind v4 compiles max-X to `width < X`, whereas the mockup's
+   * `max-width:N` means `width <= N`, so each value below is N + 1 to match the
+   * mockup exactly. For one-off widths write max-[calc(Npx+1px)]: (a bare
+   * max-[Npx]: would be 1px off).
+   */
+  --breakpoint-*: initial;
+  --breakpoint-phone: 621px; /* mockup 620: container/section padding, type */
+  --breakpoint-nav: 981px; /* mockup 980: hamburger nav, 2-col -> 1-col, sticky -> static */
+  --breakpoint-bp900: 901px;
+  --breakpoint-bp767: 768px;
+  --breakpoint-bp720: 721px;
+  --breakpoint-bp700: 701px;
+  --breakpoint-bp600: 601px;
+}
+
+/* (hover:hover) and (pointer:fine) — used by ~14 mockup blocks */
+@custom-variant hover-fine (@media (hover: hover) and (pointer: fine));
+
+:root {
+  color-scheme: dark;
+  --bs-hero-header-height: 82px; /* fixed navbar height */
+  /* Fills behind white text (4.95:1 on #fff, 4.69:1 on #f7f9fc; brand #0090ff is 3.26:1).
+     In :root, not @theme: Tailwind drops theme variables it does not see used. */
+  --color-accent-aa: #006fd6;
+}
+
+@media (max-width: 620px) {
+  :root {
+    --bs-hero-header-height: 72px;
+  }
+}
+
+/* Base layer (mockup L33–40 + dark-theme overrides) */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background: var(--color-page);
+  }
+
+  /* The mockup scrolls to in-page targets instantly under reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-page);
+    color: var(--color-title);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.6;
+    /* body only (not html): keeps position:sticky working, AUDIT R5 */
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+    font-family: var(--font-sans);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    color: var(--color-title);
+  }
+
+  strong,
+  b {
+    font-weight: 700;
+  }
+}
+
+/*
+ * Page frame. `main` clears the fixed navbar (mockup L81: padding-top 82px,
+ * 72px at <= 620px). Routes that open with a full-bleed hero mark it
+ * `data-header-hero`; the navbar floats over it, so no offset (mockup L11620).
+ */
+main {
+  padding-top: var(--bs-hero-header-height);
+}
+
+main:has([data-header-hero]) {
+  padding-top: 0;
+}
+
+/* Page transition (mockup L83), replayed per navigation by app/template.tsx */
+.page-fade {
+  animation: fade 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-fade {
+    animation: none;
+  }
+}
+
+@layer components {
+  /* .container: width:min(1180px, 100% - 40px); 24px gutters at <= 620px */
+  .container-site {
+    width: min(var(--container-site), calc(100% - 40px));
+    margin-inline: auto;
+  }
+
+  @media (max-width: 620px) {
+    .container-site {
+      width: min(100% - 24px, var(--container-site));
+    }
+  }
+
+  /* .section: padding:100px 0 (72px at <= 620px) */
+  .section-pad {
+    position: relative;
+    padding-block: var(--spacing-section);
+  }
+
+  @media (max-width: 620px) {
+    .section-pad {
+      padding-block: var(--spacing-section-sm);
+    }
+  }
+
+  /* .eyebrow */
+  .eyebrow {
+    color: var(--color-accent);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+}

@@ -1,0 +1,162 @@
+/*
+ * FAQ (shared: Home now, /pos and /industries later). Source: mockup L157-167
+ * (base) with the dark-theme result of L12475-12570 (muted cards, chevron icon,
+ * 1050/900 frame). Values read from the rendered mockup at 14 viewports.
+ * Breakpoints are the mockup's own: 700 (container + head padding), 620 (section).
+ */
+.bs-faq-section {
+  position: relative;
+  z-index: 5;
+  padding: 100px 0;
+  overflow: hidden;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+@media (max-width: 620px) {
+  .bs-faq-section {
+    padding: 72px 0;
+  }
+}
+
+.bs-faq-container {
+  width: min(1180px, calc(100% - 40px));
+  max-width: 1050px;
+  margin-inline: auto;
+}
+
+@media (max-width: 700px) {
+  .bs-faq-container {
+    width: min(100% - 28px, 1050px);
+  }
+}
+
+.bs-faq-title {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(30px, 3.2vw, 40px);
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+  text-align: left;
+}
+
+.bs-faq {
+  display: grid;
+  gap: 12px;
+  max-width: 900px;
+  margin: 28px auto 0;
+}
+
+.bs-faq-item {
+  overflow: hidden;
+  border: 1px solid var(--color-stroke);
+  border-radius: 15px;
+  background: #151719;
+  color: var(--color-title);
+}
+
+/* The question is a <button> inside a heading; the heading carries no styling. */
+.bs-faq-q {
+  margin: 0;
+  font: inherit;
+  letter-spacing: normal;
+}
+
+.bs-faq-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 13px;
+  width: 100%;
+  padding: 19px 20px;
+  border: 0;
+  background: none;
+  color: var(--color-title);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .bs-faq-head {
+    padding: 16px;
+  }
+}
+
+.bs-faq-head:focus-visible {
+  outline: 2px solid var(--color-blue-light);
+  outline-offset: -3px;
+  border-radius: 13px;
+}
+
+/*
+ * Chevron drawn by ::after. The mockup's icon is a 12px grid whose first row
+ * holds the (invisible, font-size:0) "+" text node, which pushes the chevron
+ * into row 2 (3px / 9px tracks); the explicit rows reproduce that position
+ * without the text node.
+ */
+.bs-faq-icon {
+  display: grid;
+  flex: 0 0 12px;
+  grid-template-rows: 3px 9px;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+}
+
+.bs-faq-icon::after {
+  content: "";
+  display: block;
+  grid-row: 2;
+  width: 5px;
+  height: 5px;
+  border-right: 1.5px solid #c2c9cc;
+  border-bottom: 1.5px solid #c2c9cc;
+  transform: rotate(-45deg);
+  transition: transform 0.22s ease;
+}
+
+.bs-faq-item[data-open] .bs-faq-icon::after {
+  transform: rotate(45deg);
+}
+
+.bs-faq-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  color: var(--color-copy);
+  transition: grid-template-rows 0.3s ease;
+}
+
+.bs-faq-item[data-open] .bs-faq-body {
+  grid-template-rows: 1fr;
+}
+
+.bs-faq-body > div {
+  min-height: 0;
+  padding: 0 20px 0 33px;
+  overflow: hidden;
+}
+
+.bs-faq-item[data-open] .bs-faq-body > div {
+  padding-bottom: 20px;
+}
+
+.bs-faq-body p {
+  margin: 17px 0;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-faq-body,
+  .bs-faq-icon::after {
+    transition: none;
+  }
+}

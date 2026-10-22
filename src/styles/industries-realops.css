@@ -1,0 +1,766 @@
+/*
+ * Industries section 03: "Real operations" (mockup `.real-ops-v3`, source
+ * L3230-3955, the "requested fix" hover block L11385, dark overrides L12040 /
+ * L12185 / L12270, entrance neutralisation L5504). Values are the resolved
+ * result of the cascade, read from the rendered mockup at 22 viewports
+ * (AUDIT R1). The rendered section is DARK with dark cards; the little
+ * graphics and the arrow keep their light `#EFF5FF` fill, as in the mockup.
+ * Breakpoints: 1100, 880, 767, 430.
+ *
+ * Section state lives in `data-state` ("wait" -> "visible", set by
+ * SectionReveal). It only drives the outline entrance and the transition
+ * delays that remain on the cards; absent = final look (fail-visible).
+ */
+.bs-ind-realops {
+  position: relative;
+  overflow: hidden;
+  padding: 108px 0 118px;
+  background: var(--color-page);
+  color: var(--color-title);
+}
+
+.bs-ind-realops::before,
+.bs-ind-realops::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid rgba(0, 144, 255, 0.1);
+  border-radius: 999px;
+}
+
+.bs-ind-realops::before {
+  width: 520px;
+  height: 230px;
+  left: -290px;
+  top: 125px;
+  transform: rotate(19deg);
+}
+
+.bs-ind-realops::after {
+  width: 420px;
+  height: 190px;
+  right: -240px;
+  bottom: 100px;
+  transform: rotate(-21deg);
+}
+
+.bs-ind-realops-inner {
+  position: relative;
+  z-index: 2;
+  margin-inline: auto;
+}
+
+/* ---- Heading + intro ---- */
+.bs-ind-realops-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(340px, 0.88fr);
+  gap: 72px;
+  align-items: end;
+  margin-bottom: 58px;
+}
+
+.bs-ind-realops-head-left,
+.bs-ind-realops-intro {
+  transition:
+    opacity 0.68s ease,
+    transform 0.68s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bs-ind-realops-intro {
+  transition-delay: 0.12s;
+}
+
+.bs-ind-realops-title {
+  max-width: 780px;
+  margin: 0;
+  color: var(--color-title);
+  font-family: var(--font-serif);
+  font-size: clamp(42px, 4.7vw, 70px);
+  font-weight: 400;
+  line-height: 1.16;
+  letter-spacing: -0.045em;
+}
+
+.bs-ind-realops-title span {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-accent);
+}
+
+.bs-ind-realops-intro {
+  max-width: 520px;
+  margin: 0 0 5px auto;
+  color: var(--color-copy);
+  font-size: 16px;
+  line-height: 1.68;
+}
+
+/* ---- Photo + cards layout ---- */
+.bs-ind-realops-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+  gap: 48px;
+  align-items: stretch;
+}
+
+/* ---- Photo composition ---- */
+.bs-ind-realops-visual {
+  position: relative;
+  min-height: 626px;
+  transition:
+    opacity 0.72s ease 0.16s,
+    transform 0.72s cubic-bezier(0.2, 0.8, 0.2, 1) 0.16s;
+}
+
+.bs-ind-realops-photo-shell {
+  position: absolute;
+  inset: 18px 22px 18px 10px;
+  overflow: hidden;
+  border-radius: 42px 92px 46px 112px;
+  background: var(--color-card);
+  box-shadow:
+    0 34px 70px rgba(48, 60, 72, 0.16),
+    0 8px 24px rgba(48, 60, 72, 0.08);
+}
+
+.bs-ind-realops-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  object-position: 52% center;
+}
+
+.bs-ind-realops-glow {
+  position: absolute;
+  inset: 50px 0 30px 22px;
+  border-radius: 50%;
+  background: rgba(0, 144, 255, 0.16);
+  filter: blur(45px);
+  transform: scale(0.92);
+}
+
+.bs-ind-realops-outline {
+  position: absolute;
+  pointer-events: none;
+  border: 1.5px solid rgba(0, 144, 255, 0.28);
+}
+
+.bs-ind-realops-outline-a {
+  width: 76%;
+  height: 88%;
+  left: -16px;
+  top: 8%;
+  border-radius: 46% 54% 42% 58% / 54% 42% 58% 46%;
+  transform: rotate(-8deg);
+}
+
+.bs-ind-realops-outline-b {
+  width: 56%;
+  height: 53%;
+  right: -6px;
+  bottom: -20px;
+  border-color: rgba(127, 176, 255, 0.35);
+  border-radius: 58% 42% 60% 40%;
+  transform: rotate(13deg);
+}
+
+/* Entrance of the frames: they start nudged and invisible, then settle (opacity + transform only) */
+.bs-ind-realops[data-state="wait"] .bs-ind-realops-outline {
+  opacity: 0;
+}
+
+.bs-ind-realops[data-state="wait"] .bs-ind-realops-outline-a {
+  transform: translate(-12px, 10px) rotate(-8deg);
+}
+
+.bs-ind-realops[data-state="wait"] .bs-ind-realops-outline-b {
+  transform: translate(12px, 12px) rotate(13deg);
+}
+
+.bs-ind-realops[data-state="visible"] .bs-ind-realops-outline {
+  transition:
+    opacity 0.75s ease 0.42s,
+    transform 0.75s ease 0.42s;
+}
+
+/* ---- Floating icons ---- */
+.bs-ind-realops-float {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 14px;
+  background: var(--color-card);
+  color: var(--color-accent);
+  box-shadow: 0 14px 32px rgba(48, 60, 72, 0.14);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.bs-ind-realops-float svg {
+  display: block;
+  width: 23px;
+  height: 23px;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-ind-realops-float-1 {
+  left: -5px;
+  top: 80px;
+  animation: realOpsFloat 4.8s ease-in-out infinite;
+}
+
+.bs-ind-realops-float-2 {
+  right: 0;
+  top: 132px;
+  animation: realOpsFloat 5.4s ease-in-out -0.9s infinite;
+}
+
+.bs-ind-realops-float-3 {
+  left: 18px;
+  bottom: 82px;
+  animation: realOpsFloat 5.8s ease-in-out -1.8s infinite;
+}
+
+.bs-ind-realops-float-4 {
+  right: 6px;
+  bottom: 38px;
+  animation: realOpsFloat 4.6s ease-in-out -2.7s infinite;
+}
+
+/* ---- Cards ---- */
+.bs-ind-realops-cards {
+  display: grid;
+  gap: 14px;
+}
+
+.bs-ind-realops-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 46px 58px minmax(0, 1fr) 92px 44px;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  min-height: 142px;
+  padding: 19px 20px;
+  overflow: hidden;
+  border: 1px solid var(--color-stroke);
+  border-radius: 23px;
+  background: var(--color-card);
+  color: var(--color-title);
+  box-shadow:
+    0 14px 34px rgba(48, 60, 72, 0.07),
+    0 2px 6px rgba(48, 60, 72, 0.035);
+  text-align: left;
+  cursor: default;
+}
+
+/* The entrance delays stay on the cards after the entrance, so they delay hover too (mockup quirk) */
+.bs-ind-realops[data-state="visible"] .bs-ind-realops-card {
+  transition:
+    opacity 0.54s ease var(--ro-delay, 0.2s),
+    transform 0.34s ease var(--ro-delay, 0.2s),
+    border-color 0.34s ease var(--ro-delay, 0.2s),
+    box-shadow 0.34s ease var(--ro-delay, 0.2s),
+    background 0.38s ease var(--ro-delay, 0.2s),
+    color 0.34s ease var(--ro-delay, 0.2s);
+}
+
+.bs-ind-realops[data-state="visible"] .bs-ind-realops-card:nth-child(2) {
+  --ro-delay: 0.27s;
+}
+
+.bs-ind-realops[data-state="visible"] .bs-ind-realops-card:nth-child(3) {
+  --ro-delay: 0.34s;
+}
+
+.bs-ind-realops[data-state="visible"] .bs-ind-realops-card:nth-child(4) {
+  --ro-delay: 0.41s;
+}
+
+.bs-ind-realops-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(113deg, #367fff 0%, #367fff 47%, #0090ff 100%);
+  opacity: 0;
+  transition: opacity 0.38s ease;
+}
+
+.bs-ind-realops-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.bs-ind-realops-number {
+  align-self: start;
+  padding-top: 4px;
+  color: #6385b5;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 16px;
+  letter-spacing: 0.12em;
+  transition: color 0.3s ease;
+}
+
+.bs-ind-realops-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 16px;
+  background: var(--color-card);
+  color: var(--color-accent);
+  box-shadow: 0 8px 20px rgba(52, 68, 64, 0.07);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.bs-ind-realops-icon svg {
+  display: block;
+  width: 27px;
+  height: 27px;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-ind-realops-copy {
+  display: block;
+  min-width: 0;
+}
+
+.bs-ind-realops-copy strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--color-title);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+  transition: color 0.3s ease;
+}
+
+.bs-ind-realops-copy > span {
+  display: block;
+  max-width: 520px;
+  color: var(--color-copy);
+  font-size: 12px;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+/* Mini graphics (the light box is the mockup's, even on the dark card) */
+.bs-ind-realops-graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 66px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #eff5ff, #eff5ff);
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.bs-ind-realops-graphic i {
+  display: block;
+  width: 12px;
+  border-radius: 7px 7px 3px 3px;
+  background: #7fb0ff;
+}
+
+.bs-ind-realops-graphic i:nth-child(1) {
+  height: 24px;
+}
+
+.bs-ind-realops-graphic i:nth-child(2) {
+  height: 42px;
+  background: #0090ff;
+}
+
+.bs-ind-realops-graphic i:nth-child(3) {
+  height: 31px;
+  background: #7fb0ff;
+}
+
+.bs-ind-realops-graphic-doc {
+  flex-direction: column;
+  gap: 5px;
+}
+
+.bs-ind-realops-graphic-doc i {
+  width: 52px;
+  height: 5px;
+  border-radius: 99px;
+  background: #a9b8cc;
+}
+
+.bs-ind-realops-graphic-doc i:nth-child(1),
+.bs-ind-realops-graphic-doc i:nth-child(2),
+.bs-ind-realops-graphic-doc i:nth-child(3) {
+  height: 5px;
+}
+
+.bs-ind-realops-graphic-doc i:nth-child(2) {
+  width: 38px;
+  background: #367fff;
+}
+
+.bs-ind-realops-graphic-doc i:nth-child(3) {
+  width: 46px;
+  background: #a9b8cc;
+}
+
+.bs-ind-realops-graphic-growth {
+  align-items: flex-end;
+  padding-bottom: 12px;
+}
+
+.bs-ind-realops-graphic-growth i:nth-child(1) {
+  height: 18px;
+}
+
+.bs-ind-realops-graphic-growth i:nth-child(2) {
+  height: 33px;
+}
+
+.bs-ind-realops-graphic-growth i:nth-child(3) {
+  height: 49px;
+}
+
+.bs-ind-realops-arrow {
+  display: grid;
+  place-items: center;
+  justify-self: end;
+  width: 38px;
+  height: 38px;
+  border: 1px solid #eff5ff;
+  border-radius: 50%;
+  background: #eff5ff;
+  color: var(--color-accent);
+  font-size: 16px;
+  line-height: 1;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ---- Card hover (fine pointers only, as in the mockup) ---- */
+@media (hover: hover) and (pointer: fine) {
+  .bs-ind-realops-card:hover {
+    transform: translateY(-4px);
+    background: #242e31;
+    box-shadow:
+      0 25px 54px rgba(0, 144, 255, 0.25),
+      0 7px 18px rgba(0, 144, 255, 0.14);
+  }
+
+  .bs-ind-realops-card:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, #367fff 0%, #0090ff 58%, #0b3ca8 100%);
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-number,
+  .bs-ind-realops-card:hover .bs-ind-realops-copy strong {
+    color: #fff;
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-copy > span {
+    color: rgba(255, 255, 255, 0.86);
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-icon {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: #fff;
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-graphic {
+    background: rgba(255, 255, 255, 0.13);
+    transform: scale(1.03);
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-graphic i {
+    background: rgba(255, 255, 255, 0.56);
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-graphic i:nth-child(2) {
+    background: #fff;
+  }
+
+  .bs-ind-realops-card:hover .bs-ind-realops-arrow {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--color-stroke);
+    color: #fff;
+    box-shadow: 0 7px 16px rgba(52, 68, 64, 0.22);
+    transform: translate(2px, -2px);
+  }
+}
+
+/* ---- Tablet ---- */
+@media (max-width: 1100px) {
+  .bs-ind-realops {
+    padding: 90px 0 100px;
+  }
+
+  .bs-ind-realops-head {
+    grid-template-columns: 1fr 0.78fr;
+    gap: 38px;
+    margin-bottom: 46px;
+  }
+
+  .bs-ind-realops-title {
+    font-size: clamp(40px, 5vw, 58px);
+  }
+
+  .bs-ind-realops-layout {
+    grid-template-columns: minmax(300px, 0.4fr) minmax(0, 0.6fr);
+    gap: 30px;
+  }
+
+  .bs-ind-realops-visual {
+    min-height: 610px;
+  }
+
+  .bs-ind-realops-card {
+    grid-template-columns: 38px 52px minmax(0, 1fr) 68px 40px;
+    gap: 12px;
+    padding: 17px 16px;
+  }
+
+  .bs-ind-realops-copy strong {
+    font-size: 16px;
+  }
+
+  .bs-ind-realops-copy > span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 880px) {
+  .bs-ind-realops-head {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .bs-ind-realops-intro {
+    max-width: 720px;
+    margin-left: 0;
+  }
+
+  .bs-ind-realops-layout {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .bs-ind-realops-visual {
+    width: 100%;
+    max-width: 720px;
+    min-height: 520px;
+  }
+
+  .bs-ind-realops-photo-shell {
+    inset: 12px 32px 12px 10px;
+    border-radius: 36px 78px 38px 92px;
+  }
+
+  .bs-ind-realops-cards {
+    max-width: 760px;
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 767px) {
+  .bs-ind-realops {
+    padding: 76px 0 84px;
+  }
+
+  .bs-ind-realops::before,
+  .bs-ind-realops::after {
+    opacity: 0.55;
+  }
+
+  .bs-ind-realops-head {
+    margin-bottom: 34px;
+  }
+
+  .bs-ind-realops-title {
+    font-size: clamp(36px, 11vw, 50px);
+  }
+
+  .bs-ind-realops-intro {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .bs-ind-realops-layout {
+    gap: 28px;
+  }
+
+  .bs-ind-realops-visual {
+    width: 100%;
+    min-height: 440px;
+  }
+
+  .bs-ind-realops-photo-shell {
+    inset: 10px 14px 10px 2px;
+    border-radius: 30px 62px 32px 70px;
+  }
+
+  .bs-ind-realops-photo {
+    object-position: 51% center;
+  }
+
+  .bs-ind-realops-float {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .bs-ind-realops-float svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .bs-ind-realops-float-1 {
+    left: -2px;
+    top: 56px;
+  }
+
+  .bs-ind-realops-float-2 {
+    right: 0;
+    top: 98px;
+  }
+
+  .bs-ind-realops-float-3 {
+    left: 8px;
+    bottom: 58px;
+  }
+
+  .bs-ind-realops-float-4 {
+    right: 2px;
+    bottom: 26px;
+  }
+
+  .bs-ind-realops-card {
+    grid-template-columns: 34px 48px minmax(0, 1fr) 38px;
+    gap: 11px;
+    min-height: 0;
+    padding: 16px 14px;
+    border-radius: 20px;
+  }
+
+  .bs-ind-realops-number {
+    padding-top: 3px;
+  }
+
+  .bs-ind-realops-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+  }
+
+  .bs-ind-realops-icon svg {
+    width: 23px;
+    height: 23px;
+  }
+
+  .bs-ind-realops-copy strong {
+    font-size: 16px;
+  }
+
+  .bs-ind-realops-copy > span {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .bs-ind-realops-graphic {
+    display: none;
+  }
+
+  .bs-ind-realops-arrow {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 430px) {
+  .bs-ind-realops-visual {
+    min-height: 390px;
+  }
+
+  .bs-ind-realops-card {
+    grid-template-columns: 30px 44px minmax(0, 1fr) 34px;
+    gap: 9px;
+    padding: 14px 12px;
+  }
+
+  .bs-ind-realops-icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .bs-ind-realops-copy strong {
+    font-size: 15px;
+  }
+
+  .bs-ind-realops-copy > span {
+    font-size: 11px;
+  }
+
+  .bs-ind-realops-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+}
+
+/* ---- Reduced motion: no entrance, no float, no transitions ---- */
+@media (prefers-reduced-motion: reduce) {
+  .bs-ind-realops-head-left,
+  .bs-ind-realops-intro,
+  .bs-ind-realops-visual,
+  .bs-ind-realops-card,
+  .bs-ind-realops-outline {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .bs-ind-realops-outline-a {
+    transform: rotate(-8deg) !important;
+  }
+
+  .bs-ind-realops-outline-b {
+    transform: rotate(13deg) !important;
+  }
+
+  .bs-ind-realops-float {
+    animation: none !important;
+  }
+
+  .bs-ind-realops-card,
+  .bs-ind-realops-card::before,
+  .bs-ind-realops-arrow,
+  .bs-ind-realops-graphic {
+    transition: none !important;
+  }
+}

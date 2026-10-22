@@ -1,0 +1,508 @@
+/*
+ * Navbar, Solutions mega menu and mobile menu.
+ *
+ * Every value is the *resolved* result of the mockup's stacked cascade (read
+ * from the rendered mockup at 20 widths, AUDIT R1), not any single block of
+ * mockup source. Desktop-first like the mockup: 980 / 620 / 360 are the real
+ * `max-width` breakpoints. Mockup line numbers are in comments.
+ *
+ * State is carried by data attributes set from React (never classes mutated
+ * on React-owned nodes):
+ *   data-hero              navbar floats transparent over a full-bleed hero
+ *   data-hidden            slid up after scrolling down past 120px
+ *   data-solutions-open    Solutions mega menu is open
+ *   body[data-mobile-menu] "open" while the mobile panel is open
+ */
+
+.bs-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+  height: var(--bs-hero-header-height);
+  border-bottom: 1px solid var(--color-stroke);
+  background-color: var(--color-page);
+  box-shadow: 0 12px 38px rgba(25, 28, 32, 0.26);
+  backdrop-filter: blur(12px);
+  color: var(--color-title);
+  /* L11593 */
+  transition:
+    transform 350ms ease,
+    background-color 300ms ease,
+    border-bottom-color 300ms ease,
+    box-shadow 300ms ease,
+    backdrop-filter 300ms ease,
+    -webkit-backdrop-filter 300ms ease;
+}
+
+/* Over a hero (L11601) */
+.bs-nav[data-hero] {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+/* Hide on scroll down, return on scroll up (L66) */
+.bs-nav[data-hidden] {
+  transform: translateY(-100%);
+}
+
+/* Desktop Solutions menu open: solid near-black, no blur or divider (L13576) */
+.bs-nav[data-solutions-open] {
+  background-color: var(--color-page);
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.bs-nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  width: min(1200px, calc(100% - 34px));
+  height: 100%;
+  margin: auto;
+}
+
+/* ---- Brand logo (L12744, L12973-13019) ---- */
+.bs-brand {
+  display: flex;
+  align-items: center;
+  margin-left: -16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bs-brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 219px;
+  height: 65px;
+}
+
+.bs-brand-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (min-width: 981px) and (max-width: 1120px) {
+  .bs-brand-logo {
+    width: 194px;
+    height: 58px;
+  }
+}
+
+/* ---- Desktop links ---- */
+.bs-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 100%;
+  margin-left: 8px;
+}
+
+.bs-nav-link {
+  position: relative;
+  display: block;
+  padding: 28px 0 23px;
+  border: 0;
+  background: none;
+  color: var(--color-copy);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  text-align: center;
+  cursor: pointer;
+  /* The mockup's global `body *` colour transition (.22s) */
+  transition: color 0.22s ease;
+}
+
+.bs-nav-link:hover,
+.bs-nav-link:focus-visible {
+  color: var(--color-title);
+}
+
+/* Current page marker (L72) */
+.bs-nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 16px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--color-accent);
+}
+
+.bs-nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
+/* ---- Hamburger (hidden on desktop) ---- */
+.bs-menu-btn {
+  display: none;
+}
+
+/* ---- Solutions mega menu (desktop only) ---- */
+.bs-mega {
+  position: fixed;
+  top: var(--bs-hero-header-height);
+  left: 0;
+  right: 0;
+  z-index: 999;
+  width: 100%;
+  background-color: var(--color-page);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+}
+
+.bs-mega[data-open] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  /* Visibility flips at once on open (the fade-in is unchanged: opacity starts
+     at 0) so keyboard focus can move into the panel on the next frame. The
+     delayed hide above still applies when closing. */
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0s;
+}
+
+/*
+ * Same axis as .bs-nav-inner, so the first column starts exactly under the
+ * logo's visible left edge. --bs-mega-inset is the distance from the navbar's
+ * content box to that edge (brand's -16px margin + the logo's centred
+ * object-fit gap + the PNG's own transparent margin); it changes with the
+ * logo box at 981-1120px. Re-measure it if the logo file changes.
+ */
+.bs-mega-grid {
+  --bs-mega-inset: 12.25px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  box-sizing: border-box;
+  width: min(1200px, calc(100% - 34px));
+  margin: 0 auto;
+  padding: 24px calc(var(--bs-mega-inset) - 1px);
+  border: 1px solid transparent;
+}
+
+@media (min-width: 981px) and (max-width: 1120px) {
+  .bs-mega-grid {
+    --bs-mega-inset: 8.5px;
+  }
+}
+
+.bs-mega-heading {
+  margin: 0 0 10px;
+  color: var(--color-title);
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+/* L9037 */
+.bs-mega-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 7px 0;
+  color: var(--color-copy);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  transition: color 0.22s ease;
+}
+
+/* "Available Now": thin outlined text-only badge beside the name */
+.bs-mega-link small {
+  flex: none;
+  padding: 2px 7px;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bs-mega-link[data-available] {
+  cursor: pointer;
+}
+
+.bs-mega-link[data-available]:hover {
+  color: var(--color-blue-light);
+}
+
+.bs-mega-link[data-available] small {
+  color: var(--color-blue-light);
+}
+
+.bs-mega-link[data-soon] {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.bs-mega-link[data-soon]:hover {
+  color: var(--color-title);
+}
+
+/* ---- Mobile / tablet (<= 980px) ---- */
+@media (max-width: 980px) {
+  :root {
+    --bs-mobile-header-height: 76px;
+  }
+
+  .bs-nav {
+    z-index: 1100;
+  }
+
+  .bs-nav-inner {
+    gap: 12px;
+    width: calc(100% - 40px);
+    justify-content: space-between;
+  }
+
+  .bs-brand {
+    min-width: 0;
+    flex-shrink: 1;
+    margin-left: -5px;
+  }
+
+  .bs-brand-logo {
+    width: clamp(164px, 32vw, 210px);
+    max-width: 100%;
+    height: 65px;
+  }
+
+  .bs-nav-links,
+  .bs-nav-actions > .cta-ref,
+  .bs-mega {
+    display: none;
+  }
+
+  .bs-nav-actions {
+    flex: 0 0 auto;
+  }
+
+  /* L12979 */
+  .bs-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 44px;
+    box-sizing: border-box;
+    width: 44px;
+    height: 44px;
+    padding: 9px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--color-title);
+    cursor: pointer;
+  }
+
+  .bs-menu-btn:focus-visible,
+  .bs-mobile-panel a:focus-visible {
+    outline: 2px solid var(--color-blue-light);
+    outline-offset: 3px;
+  }
+
+  .bs-mobile-panel a:focus-visible {
+    border-radius: 5px;
+  }
+
+  .bs-hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 23px;
+    height: 20px;
+  }
+
+  .bs-hamburger span {
+    display: block;
+    width: 20px;
+    height: 1.8px;
+    border-radius: 4px;
+    background: currentColor;
+    transform-origin: center;
+    transition:
+      transform 0.2s ease,
+      opacity 0.15s ease;
+  }
+
+  .bs-menu-btn[aria-expanded="true"] .bs-hamburger span:nth-child(1) {
+    transform: translateY(6.2px) rotate(45deg);
+  }
+
+  .bs-menu-btn[aria-expanded="true"] .bs-hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .bs-menu-btn[aria-expanded="true"] .bs-hamburger span:nth-child(3) {
+    transform: translateY(-6.2px) rotate(-45deg);
+  }
+
+  /* While the panel is open: lock page scroll, keep the bar solid and visible */
+  body[data-mobile-menu="open"] {
+    overflow: hidden;
+  }
+
+  body[data-mobile-menu="open"] .bs-nav,
+  body[data-mobile-menu="open"] .bs-nav[data-hero] {
+    transform: translateY(0);
+    background-color: var(--color-page);
+    border-bottom-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  /* L12991 */
+  .bs-mobile-panel {
+    position: fixed;
+    z-index: 1090;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: calc(var(--bs-mobile-header-height) + 3px) 20px max(32px, env(safe-area-inset-bottom));
+    background: var(--color-page);
+    color: var(--color-title);
+  }
+
+  .bs-mobile-panel[hidden] {
+    display: none;
+  }
+
+  .bs-mobile-content {
+    width: min(100%, 560px);
+    margin-inline: auto;
+  }
+
+  .cta-ref.bs-mobile-cta {
+    display: flex;
+    width: 100%;
+    min-height: 49px;
+    margin: 0 0 18px;
+    padding: 12px 22px; /* the mockup's base .btn padding (renders 50px tall) */
+    border-radius: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .bs-mobile-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bs-mobile-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 62px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-stroke);
+    color: #d8dfdf;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 550;
+    line-height: 1.35;
+    cursor: pointer;
+    transition: color 0.2s ease;
+  }
+
+  .bs-mobile-links a:hover {
+    color: var(--color-blue-light);
+  }
+
+  .bs-mobile-arrow {
+    color: var(--color-copy);
+    font-family: Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 620px) {
+  :root {
+    --bs-mobile-header-height: 72px;
+  }
+
+  .bs-nav-inner {
+    width: calc(100% - 40px);
+  }
+
+  .bs-brand-logo {
+    width: clamp(158px, 48vw, 194px);
+    height: 60px;
+  }
+
+  .bs-menu-btn {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 360px) {
+  .bs-nav-inner {
+    width: calc(100% - 32px);
+  }
+
+  .bs-brand-logo {
+    width: 150px;
+    height: 55px;
+  }
+
+  .bs-mobile-panel {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-hamburger span,
+  .bs-mobile-links a {
+    transition: none;
+  }
+}

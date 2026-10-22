@@ -1,0 +1,181 @@
+/*
+ * Floating "CALL US" pill (mockup L7393-7660, dark-theme overrides L12700,
+ * L13392). Slides in from the right on load (keyframes `contactSlideIn` live in
+ * keyframes.css), then sits fixed bottom-right. The number appears under the
+ * circle on hover / keyboard focus.
+ */
+.bs-floating {
+  position: fixed;
+  right: 18px;
+  bottom: 44px;
+  z-index: 2200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  pointer-events: none;
+}
+
+.bs-floating-call {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  width: 74px;
+  min-height: 88px;
+  color: var(--color-blue-interactive);
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateX(115px);
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.2));
+  will-change: transform, opacity;
+  animation: contactSlideIn 0.68s cubic-bezier(0.2, 0.85, 0.25, 1.12) 0.34s forwards;
+}
+
+.bs-floating-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 22px;
+  padding: 0 10px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 999px;
+  background-color: rgba(6, 15, 27, 0.4);
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+  color: var(--color-blue-interactive);
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.bs-floating-circle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--color-stroke);
+  border-radius: 50%;
+  background-color: rgba(6, 15, 27, 0.4);
+  box-shadow:
+    0 0 0 1px rgba(48, 60, 72, 0.18),
+    0 0 17px rgba(54, 127, 255, 0.11);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.bs-floating-circle svg {
+  width: 31px;
+  height: 31px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-floating-call:hover .bs-floating-circle,
+.bs-floating-call:focus-visible .bs-floating-circle {
+  transform: translateX(-4px) scale(1.06);
+  border-color: var(--color-blue-interactive);
+  background-color: var(--color-card);
+  box-shadow:
+    0 0 0 1px rgba(54, 127, 255, 0.2),
+    0 0 25px rgba(54, 127, 255, 0.25);
+}
+
+.bs-floating-phone {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  box-sizing: border-box;
+  min-width: max-content;
+  margin-top: 7px;
+  padding: 6px 10px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 999px;
+  background: var(--color-inset);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  color: #eff5ff;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(-4px);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s ease;
+}
+
+.bs-floating-call:hover .bs-floating-phone,
+.bs-floating-call:focus-visible .bs-floating-phone {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 980px) {
+  body[data-mobile-menu="open"] .bs-floating {
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .bs-floating {
+    right: 10px;
+    bottom: 38px;
+    gap: 10px;
+  }
+
+  .bs-floating-call {
+    width: 62px;
+    min-height: 76px;
+  }
+
+  .bs-floating-status {
+    height: 19px;
+    padding: 0 8px;
+    font-size: 9px;
+  }
+
+  .bs-floating-circle {
+    width: 52px;
+    height: 52px;
+  }
+
+  .bs-floating-circle svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  .bs-floating-phone {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bs-floating-call {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+}

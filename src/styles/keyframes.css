@@ -1,0 +1,128 @@
+/*
+ * Live @keyframes ported verbatim from mockup/index.html (line numbers = mockup).
+ * Only keyframes with a live consumer are included (AUDIT §3 / §8.2). Each name
+ * is defined exactly once. Consumers (selectors, durations, play-state gating)
+ * are added with their sections in Phase 2/3.
+ */
+
+/* Global / chrome */
+@keyframes fade { /* L84: page transition (.35s ease) */
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes contactSlideIn { /* L7434: floating CALL US entrance */
+  0% { opacity: 0; transform: translateX(115px); }
+  72% { opacity: 1; transform: translateX(-7px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes bsf-online-pulse { /* L13089: footer online dot (box-shadow, see AUDIT §3.6) */
+  0% { box-shadow: 0 0 0 0 rgba(54, 214, 154, 0.45); }
+  65%, 100% { box-shadow: 0 0 0 9px rgba(54, 214, 154, 0); }
+}
+
+/* Home */
+@keyframes buildsenseClientMarquee { /* L10774: hero client-logo marquee */
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes stageIn { /* L267: capability stage swap */
+  from { opacity: 0.2; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes setupCheckDraw { /* L967: onboarding step-03 check */
+  to { stroke-dashoffset: 0; }
+}
+@keyframes whyImageIn { /* L6887: Why visual swap */
+  from { opacity: 0.45; transform: scale(1.025); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes clientStoriesV4Right { /* L490: client stories marquee */
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes homeAiDots { /* L1512: AI "thinking" dots */
+  50% { opacity: 1; transform: translateY(-2px); }
+}
+@keyframes homeAiCaret { /* L1724: AI typing caret */
+  50% { opacity: 0; }
+}
+@keyframes homeAiOuterRotate { /* L5904: AI sparkle */
+  to { transform: rotate(360deg); }
+}
+@keyframes homeAiInnerRotate { /* L5905 */
+  to { transform: rotate(360deg); }
+}
+@keyframes homeAiArcBuild { /* L5906 */
+  0%, 37%, 100% { stroke-dasharray: 32 87; opacity: 1; scale: 1; }
+  49% { stroke-dasharray: 13 106; opacity: 0.9; scale: 0.89; }
+  58%, 63% { stroke-dasharray: 0.9 118; opacity: 0.38; scale: 0.53; }
+  74% { stroke-dasharray: 10 109; opacity: 0.84; scale: 0.82; }
+  89% { stroke-dasharray: 29 90; opacity: 1; scale: 1; }
+}
+@keyframes homeAiInnerBuild { /* L5913 */
+  0%, 34%, 100% { stroke-dasharray: 19 72; opacity: 1; scale: 1; }
+  49% { stroke-dasharray: 8 83; opacity: 0.78; scale: 0.84; }
+  58%, 65% { stroke-dasharray: 0.9 90; opacity: 0.25; scale: 0.44; }
+  78% { stroke-dasharray: 13 78; opacity: 0.9; scale: 0.91; }
+  90% { stroke-dasharray: 19 72; opacity: 1; scale: 1; }
+}
+@keyframes homeAiCoreBuild { /* L5920 */
+  0%, 40%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  55% { transform: scale(0.32) rotate(-32deg); opacity: 0.16; }
+  61%, 66% { transform: scale(0.05) rotate(-60deg); opacity: 0; }
+  79% { transform: scale(0.72) rotate(16deg); opacity: 0.76; }
+  91% { transform: scale(1) rotate(0); opacity: 1; }
+}
+
+/* POS */
+@keyframes posMarqueeLeft { /* L8708: dashboards row 1 (74s) */
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 9px)); }
+}
+@keyframes posMarqueeRight { /* L8713: dashboards row 2 (78s) */
+  from { transform: translateX(calc(-50% - 9px)); }
+  to { transform: translateX(0); }
+}
+
+/* Industries */
+@keyframes realOpsFloat { /* L3465: floating icons */
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+@keyframes connectedOpsSalesGlow { /* L4216: box-shadow (see AUDIT §3.6) */
+  0%, 100% { box-shadow: 0 24px 52px rgba(0, 144, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.12) inset; }
+  50% { box-shadow: 0 28px 60px rgba(0, 144, 255, 0.31), 0 0 0 1px rgba(255, 255, 255, 0.16) inset; }
+}
+@keyframes coCheckoutNudge { /* L4350: connected-ops card art */
+  0% { transform: translateX(-5px); opacity: 0.45; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes coSalesRise { /* L4355 */
+  0% { transform: scaleY(0.18); opacity: 0.35; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes coBoxIn { /* L4360 */
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes coProfilePulse { /* L4365 */
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.45); opacity: 0.45; }
+}
+@keyframes coReportRise { /* L4370 */
+  0% { transform: scaleY(0.15); opacity: 0.25; }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+@keyframes coLineDraw { /* L4375 */
+  to { stroke-dashoffset: 0; }
+}
+
+/* Contact */
+@keyframes contactV2Enter { /* L2848 */
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes contactV2Step { /* L2937 */
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
