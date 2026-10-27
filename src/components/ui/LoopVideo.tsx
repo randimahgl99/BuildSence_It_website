@@ -5,7 +5,7 @@ import { preload } from "react-dom";
 import { registerVideo } from "@/lib/videoPlayback";
 
 type LoopVideoProps = {
-  /** URL of the MP4 under public/, e.g. "/media/videos/home-hero-v2.mp4". Always the last <source>. */
+  /** URL of the MP4 under public/, e.g. "/media/videos/home-hero-v3.mp4". Always the last <source>. */
   src: string;
   /** Optional WebM of the same video. Listed first when given; omit it when no WebM file exists. */
   webmSrc?: string;

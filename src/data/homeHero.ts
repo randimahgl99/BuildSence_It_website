@@ -3,7 +3,7 @@
 
 export const HOME_HERO = {
   /** Existing files under public/media (see docs/media-map.md). No WebM exists, so MP4 only. */
-  video: "/media/videos/home-hero-v2.mp4",
+  video: "/media/videos/home-hero-v3.mp4",
   poster: "/media/posters/home-hero-v2.jpg",
   /** First entry is what the server renders; the rotator cycles in order. */
   words: ["software", "POS systems", "mobile apps", "AI solutions"],

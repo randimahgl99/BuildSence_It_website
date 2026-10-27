@@ -2,11 +2,11 @@
 
 Files under `public/media/`, named for what they show. Every file name carries a version suffix (`-v1`; `social/tiktok-v2.png` was already versioned), because `next.config.ts` serves the whole `/media/:path*` tree with `Cache-Control: public, max-age=31536000, immutable`. **When a file's content changes, give it a new version in its name (`-v2`) and update every reference; never overwrite a file under the same name.**
 
-Reference from code as `/media/<path>` (e.g. `/media/videos/home-hero-v2.mp4`). The "Original" column is the file name in `mockup/media/` the artwork came from; originals in `mockup/` are untouched. The six videos have been re-encoded since the first copy (MP4 only, no WebM), so they no longer match the mockup's files. Sizes are the real file sizes on disk (MB = 1,048,576 bytes).
+Reference from code as `/media/<path>` (e.g. `/media/videos/home-hero-v3.mp4`). The "Original" column is the file name in `mockup/media/` the artwork came from; originals in `mockup/` are untouched. The six videos have been re-encoded since the first copy (MP4 only, no WebM), so they no longer match the mockup's files. Sizes are the real file sizes on disk (MB = 1,048,576 bytes).
 
 | Public path | Original | Size | Used for |
 |---|---|---|---|
-| `videos/home-hero-v2.mp4` | `home_hero_video.mp4` (replaced with a higher-quality export) | 39.53 MB | Home hero background |
+| `videos/home-hero-v3.mp4` | `home_hero_video.mp4` (replaced with a compressed 1366x720 export) | 11.56 MB | Home hero background |
 | `videos/pos-hero-v1.mp4` | `pos_hero_video.mp4` | 2.86 MB | POS hero background |
 | `videos/pos-speed-card-v2.mp4` | `pos_speed_card.mp4` (replaced with a higher-quality export) | 42.06 MB | POS showcase card: Built for speed |
 | `videos/pos-flexibility-card-v1.mp4` | `pos_flexibility_card.mp4` | 1.29 MB | POS showcase card: Built for flexibility |

@@ -39,10 +39,11 @@
   pointer-events: none;
 }
 
-/* home-hero-v2.mp4 is 2048x1080 with a 1920-wide picture pillarboxed in black
-   (64px each side). On wide viewports `cover` fits the width, so the bars show;
-   zoom by 2048/1920 to push them past the section's overflow:hidden. Narrower
-   viewports already crop the sides. Drop this once the file is re-exported at 1920x1080. */
+/* home-hero-v3.mp4 is 1366x720, the same frame as the earlier 2048x1080 export:
+   a 16:9 picture pillarboxed in black (about 43px each side). On wide viewports
+   `cover` fits the width, so the bars show; zoom by 1366/1280 to push them past
+   the section's overflow:hidden. Narrower viewports already crop the sides.
+   Drop this once the file is re-exported at 16:9 (e.g. 1280x720 or 1920x1080). */
 @media (min-aspect-ratio: 16/9) {
   .bs-home-hero-video {
     scale: 1.0667;
