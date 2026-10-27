@@ -3,7 +3,7 @@ import { AboutBeliefs } from "@/components/about/AboutBeliefs";
 import { AboutHero } from "@/components/about/AboutHero";
 import { AboutNetwork } from "@/components/about/AboutNetwork";
 import { AboutBlog, AboutCareers } from "@/components/about/AboutCareersBlog";
-import { AboutFounders, AboutTeam } from "@/components/about/AboutPhotoSections";
+import { AboutFounders } from "@/components/about/AboutPhotoSections";
 import { AboutStory } from "@/components/about/AboutStory";
 import { AboutReveal } from "@/components/motion/AboutReveal";
 import { AboutRevealFallback } from "@/components/motion/AboutRevealFallback";
@@ -24,7 +24,6 @@ export default function AboutPage() {
       <AboutStory />
       <AboutFounders />
       <AboutBeliefs />
-      <AboutTeam />
       <AboutNetwork />
       <AboutCareers />
       <AboutBlog />

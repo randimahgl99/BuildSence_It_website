@@ -45,10 +45,6 @@ export function HumansDirectory({ children }: { children: ReactNode }) {
       <header className="bs-humans-hero">
         {children}
         <div className="bs-humans-controls" {...aboutRevealAboveFold}>
-          {/* Inert, as in the mockup (AUDIT 8.3) */}
-          <button type="button" className="bs-humans-add">
-            {HUMANS_PAGE.addLabel}
-          </button>
           <label className="bs-humans-search-wrap">
             <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
               <circle cx="10.8" cy="10.8" r="6.6" fill="none" stroke="currentColor" strokeWidth="1.7" />

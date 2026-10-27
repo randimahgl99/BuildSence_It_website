@@ -7,6 +7,8 @@ export const CAPABILITIES_SECTION = {
   intro: "Explore a capability to see how BuildSense IT turns it into a practical digital system.",
 } as const;
 
+export type CapabilityIconName = "mobile" | "code" | "ai" | "chart" | "cloud" | "shield" | "globe";
+
 export type Capability = {
   id: string;
   name: string;
@@ -20,8 +22,12 @@ export type Capability = {
   copy: string;
   /** Natural size of the file, so next/image can reserve the right aspect ratio. */
   image: { src: string; width: number; height: number };
-  /** Only POS & Retail is live; the other rows are "Coming Soon" and do not navigate. */
+  /** Only POS & Retail is live; the other cards are "Coming soon" and do not navigate. */
   href?: string;
+  /** Call to action revealed on hover of a live card ("Explore BuildSense POS"). */
+  cta?: string;
+  /** Line icon on the "Coming soon" cards (the live card shows its photo instead). */
+  icon?: CapabilityIconName;
 };
 
 export const CAPABILITIES: readonly Capability[] = [
@@ -32,9 +38,11 @@ export const CAPABILITIES: readonly Capability[] = [
     copy: "Point-of-sale, inventory, billing and operational tools designed for modern retail businesses.",
     image: { src: "/media/home/capabilities/pos-retail-v1.jpg", width: 736, height: 736 },
     href: "/pos",
+    cta: "Explore BuildSense POS",
   },
   {
     id: "mobile-applications",
+    icon: "mobile",
     name: "Mobile Applications",
     tag: "Mobile Product",
     copy: "Cross-platform and native mobile experiences that connect customers, teams and operational workflows.",
@@ -42,6 +50,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "custom-software",
+    icon: "code",
     name: "Custom Software",
     tag: "Business Software",
     copy: "Purpose-built platforms shaped around the process your business actually needs to run.",
@@ -49,6 +58,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "ai-automation",
+    icon: "ai",
     name: "AI & Automation",
     tag: "Applied AI",
     copy: "AI assistants, automation and intelligent features connected to practical, measurable workflows.",
@@ -56,6 +66,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "data-analytics",
+    icon: "chart",
     name: "Data & Analytics",
     tag: "Data Systems",
     copy: "Dashboards, reporting pipelines and decision-support experiences that make business data useful.",
@@ -63,6 +74,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "cloud-devops",
+    icon: "cloud",
     name: "Cloud & DevOps",
     tag: "Cloud Platform",
     copy: "Reliable deployment, migration, infrastructure automation and observability for production systems.",
@@ -70,6 +82,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "cybersecurity",
+    icon: "shield",
     name: "Cybersecurity",
     tag: "Secure Engineering",
     copy: "Security-aware architecture, access control, assessments and engineering hardening from design onward.",
@@ -77,6 +90,7 @@ export const CAPABILITIES: readonly Capability[] = [
   },
   {
     id: "web-development",
+    icon: "globe",
     name: "Web Development",
     tag: "Web Engineering",
     copy: "Customer-facing websites, web applications, portals and commerce experiences built for speed and scale.",

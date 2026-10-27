@@ -1,17 +1,16 @@
 /*
  * Shared Home section headings (mockup `.section-title` / `.sub`, effective
  * values read from the rendered mockup at 15 viewports, AUDIT R1). The H2 is
- * Georgia (a system serif that the mockup never loads), not Manrope, because a
- * later dark-theme rule (L12078) wins the cascade.
+ * Poppins (--font-heading), like every heading on the site.
  */
 .bs-section-title {
   margin: 0 0 16px;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(34px, 4.6vw, 56px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 
 @media (max-width: 620px) {

@@ -28,11 +28,11 @@
 .bs-stories-heading h2 {
   margin: 0;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(38px, 4.2vw, 58px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 
 .bs-stories-heading p {

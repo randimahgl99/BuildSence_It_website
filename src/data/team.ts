@@ -22,7 +22,6 @@ export const HUMANS_PAGE = {
   title: ["Humans", "behind BuildSense IT"],
   description:
     "We're a team of seven software developers from across Sri Lanka, working together to build thoughtful technology that makes sense.",
-  addLabel: "Add yourself to the list",
   searchLabel: "Search team members",
   searchPlaceholder: "Search team members...",
   gridLabel: "BuildSense IT team members",

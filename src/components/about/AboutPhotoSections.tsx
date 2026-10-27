@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { aboutReveal } from "@/components/motion/revealAttrs";
-import { ABOUT_FOUNDERS, ABOUT_TEAM } from "@/data/about";
+import { ABOUT_FOUNDERS } from "@/data/about";
 
-// The two photo sections share one shape: centred intro with a "Meet the team"
+// The photo section shape: centred intro with a "Meet the team"
 // link to /humans, then a figure. The mockup's links are `<button data-page>`
 // elements that switch pages; here they are real links. Their "↗" arrow is
 // display:none in the rendered mockup, so it is not rendered.
@@ -58,23 +58,6 @@ export function AboutFounders() {
       headingId="bsaFoundersHeading"
       className="bs-about-founders"
       sizes="(max-width: 600px) calc(100vw - 12px), 560px"
-    />
-  );
-}
-
-/**
- * Team collage (mockup `.bsa-team`, L15613). `id="team"` is the footer's
- * "Our Team" target (`/about#team`); the mockup scrolls the section's top to the
- * viewport top, so there is no scroll-margin.
- */
-export function AboutTeam() {
-  return (
-    <PhotoSection
-      id="team"
-      data={ABOUT_TEAM}
-      headingId="bsaTeamHeading"
-      className="bs-about-team"
-      sizes="(max-width: 900px) calc(100vw - 36px), 850px"
     />
   );
 }

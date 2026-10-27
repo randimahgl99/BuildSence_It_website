@@ -32,11 +32,11 @@
 .bs-ind-cards-title {
   margin: 0 0 16px;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(34px, 4.6vw, 56px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 
 .bs-ind-cards-head > p {
@@ -103,11 +103,11 @@
 .bs-ind-card-overlay h3 {
   margin: 0 0 8px;
   color: #fff;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 30px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
 }
 

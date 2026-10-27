@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { OnboardingSection } from "@/components/home/OnboardingSection";
 import { AboutReveal } from "@/components/motion/AboutReveal";
 import { AboutRevealFallback } from "@/components/motion/AboutRevealFallback";
+import { PremiumReveal } from "@/components/motion/PremiumReveal";
 import { PosConnectedSection } from "@/components/pos/PosConnectedSection";
 import { PosDashboardsSection } from "@/components/pos/PosDashboardsSection";
 import { PosFaqSection } from "@/components/pos/PosFaqSection";
@@ -16,12 +18,14 @@ export const metadata: Metadata = pageMetadata({
   path: "/pos",
 });
 
-// POS: 3.6 hero, "Connected retail" and the video showcase; 3.7 Part A power
+// POS: 3.6 hero, POS onboarding (moved from Home; its data-reveal elements are
+// driven by PremiumReveal), "Connected retail" and the video showcase; 3.7 Part A power
 // explorer, Part B live dashboards marquee and FAQ.
 export default function PosPage() {
   return (
     <>
       <PosHero />
+      <OnboardingSection />
       <PosConnectedSection />
       <PosShowcaseSection />
       <PosPowerSection />
@@ -29,6 +33,7 @@ export default function PosPage() {
       <PosFaqSection />
       <AboutReveal />
       <AboutRevealFallback />
+      <PremiumReveal />
     </>
   );
 }

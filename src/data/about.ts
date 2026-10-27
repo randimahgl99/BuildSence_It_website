@@ -85,20 +85,6 @@ export const ABOUT_BELIEFS = {
   ],
 } as const satisfies { heading: string; intro: string; cards: readonly AboutBelief[] };
 
-export const ABOUT_TEAM = {
-  heading: "The team behind it",
-  intro:
-    "Developers, designers, and problem-solvers working together to create technology that makes sense.",
-  cta: { label: "Meet our team", href: "/humans" },
-  photo: {
-    src: "/media/about/team-collage-v1.jpg",
-    width: 2048,
-    height: 1012,
-    alt: "BuildSense IT team collage featuring all seven software developers",
-  },
-  caption: "Meet the BuildSense IT Solutions team.",
-} as const;
-
 export type AboutClient = {
   id: "kbugz" | "motors" | "hunger";
   name: string;

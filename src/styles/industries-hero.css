@@ -58,11 +58,11 @@
   max-width: 920px;
   margin: 10px 0 20px;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(42px, 6vw, 76px);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.058em;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 
 .bs-ind-hero-line {
@@ -140,7 +140,7 @@
   .bs-ind-hero-title {
     font-size: clamp(39px, 11.7vw, 55px);
     line-height: 0.98;
-    letter-spacing: -0.052em;
+    letter-spacing: -0.032em;
   }
 
   .bs-ind-hero-sub {

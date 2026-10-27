@@ -49,11 +49,11 @@
 .bs-why-item-title {
   margin: 8px 0 12px;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(31px, 4.2vw, 52px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
 }
 
 .bs-why-item-copy {
@@ -130,7 +130,6 @@
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
 }
 
-/* Manrope at 400: the mockup asks for 400 but only 600+ is loaded, so it snaps (AUDIT §0.8) */
 .bs-why-title {
   margin-top: 5px;
   color: #fff;

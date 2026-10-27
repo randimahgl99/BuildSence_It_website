@@ -84,7 +84,7 @@ export const FOOTER_COLUMNS: readonly FooterColumn[] = [
       { label: "Contact Us", href: "/contact" },
       { label: "About Us", href: "/about" },
       // Section ids are added with the About / Home sections in Phase 3.
-      { label: "Our Team", href: "/about#team" },
+      { label: "Our Team", href: "/humans" },
       { label: "FAQs", href: "/#faq" },
     ],
   },

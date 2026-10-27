@@ -204,7 +204,12 @@ export function IndustryAccordion({
               aria-label={`Explore ${industry.name} solutions`}
               onClick={(event) => event.stopPropagation()}
             >
-              Explore <span aria-hidden="true">↗</span>
+              <span className="bs-ind-explore-label">Explore</span>
+              <span className="bs-ind-explore-icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" width="14" height="14">
+                  <path d="M3 8h9M8.5 4.5 12 8l-3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
             </Link>
 
             {/* Touch / narrow layout only (display:none otherwise). */}

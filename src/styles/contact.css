@@ -3,7 +3,7 @@
  * generic-heading overrides). Values are the resolved result of the cascade, read
  * from the rendered mockup (AUDIT R1):
  *  - the hero is flat #080B0D (the source's gradient is overridden),
- *  - the H1 and step titles are Georgia 400 (generic `main .page h1/h3` rules win),
+ *  - the H1 and step titles are Poppins 500 (--font-heading),
  *  - inputs are dark (#0E141D, #303C48 border) and keep that border on focus,
  *  - the submit is the dark reference CTA (`.bs-ref-motion-cta`), whose transition,
  *    colours and glow replace the page's own lift/blue hover (no lift in the render).
@@ -94,11 +94,11 @@
   max-width: 600px;
   margin: 24px 0 0;
   color: #eff5ff;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(48px, 5.8vw, 78px);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.058em;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 
 .bs-contact-title strong {
@@ -169,11 +169,11 @@
 .bs-contact-step h3 {
   margin: 0 0 4px;
   color: #eff5ff;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
 }
 
 .bs-contact-step p {

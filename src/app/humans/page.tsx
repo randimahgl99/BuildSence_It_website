@@ -13,7 +13,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/humans",
 });
 
-// Humans (3.11): Georgia hero, inert "Add yourself" button, live search and the
+// Humans (3.11): Poppins hero, live search and the
 // 3-3-1 team grid. The interactive part (search state, "last alone") is the
 // client `HumansDirectory`; the hero copy is passed in as server-rendered children.
 export default function HumansPage() {

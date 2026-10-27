@@ -40,39 +40,6 @@
   from { transform: translate3d(-50%, 0, 0); }
   to { transform: translate3d(0, 0, 0); }
 }
-@keyframes homeAiDots { /* L1512: AI "thinking" dots */
-  50% { opacity: 1; transform: translateY(-2px); }
-}
-@keyframes homeAiCaret { /* L1724: AI typing caret */
-  50% { opacity: 0; }
-}
-@keyframes homeAiOuterRotate { /* L5904: AI sparkle */
-  to { transform: rotate(360deg); }
-}
-@keyframes homeAiInnerRotate { /* L5905 */
-  to { transform: rotate(360deg); }
-}
-@keyframes homeAiArcBuild { /* L5906 */
-  0%, 37%, 100% { stroke-dasharray: 32 87; opacity: 1; scale: 1; }
-  49% { stroke-dasharray: 13 106; opacity: 0.9; scale: 0.89; }
-  58%, 63% { stroke-dasharray: 0.9 118; opacity: 0.38; scale: 0.53; }
-  74% { stroke-dasharray: 10 109; opacity: 0.84; scale: 0.82; }
-  89% { stroke-dasharray: 29 90; opacity: 1; scale: 1; }
-}
-@keyframes homeAiInnerBuild { /* L5913 */
-  0%, 34%, 100% { stroke-dasharray: 19 72; opacity: 1; scale: 1; }
-  49% { stroke-dasharray: 8 83; opacity: 0.78; scale: 0.84; }
-  58%, 65% { stroke-dasharray: 0.9 90; opacity: 0.25; scale: 0.44; }
-  78% { stroke-dasharray: 13 78; opacity: 0.9; scale: 0.91; }
-  90% { stroke-dasharray: 19 72; opacity: 1; scale: 1; }
-}
-@keyframes homeAiCoreBuild { /* L5920 */
-  0%, 40%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-  55% { transform: scale(0.32) rotate(-32deg); opacity: 0.16; }
-  61%, 66% { transform: scale(0.05) rotate(-60deg); opacity: 0; }
-  79% { transform: scale(0.72) rotate(16deg); opacity: 0.76; }
-  91% { transform: scale(1) rotate(0); opacity: 1; }
-}
 
 /* POS */
 @keyframes posMarqueeLeft { /* L8708: dashboards row 1 (74s) */

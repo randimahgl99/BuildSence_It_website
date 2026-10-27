@@ -11,7 +11,6 @@
 @import "../styles/home-capabilities.css";
 @import "../styles/home-onboarding.css";
 @import "../styles/home-why.css";
-@import "../styles/home-ai.css";
 @import "../styles/home-industries.css";
 @import "../styles/home-stories.css";
 @import "../styles/faq.css";
@@ -64,9 +63,8 @@
 
   /* Fonts (variables are set by next/font in layout.tsx) */
   --font-sans: var(--font-inter), Arial, sans-serif;
-  --font-heading: var(--font-manrope), "Inter", Arial, sans-serif;
-  /* About / Humans / client-stories headings: system Georgia, never loaded */
-  --font-serif: Georgia, "Times New Roman", serif;
+  /* Every heading: Poppins. Body copy, UI and controls: Inter (--font-sans). */
+  --font-heading: var(--font-poppins), "Inter", Arial, sans-serif;
   /* Footer wordmark: mockup never loads this family, so it renders as
      Impact / Arial Narrow depending on OS. Kept identical pending AUDIT Q9. */
   --font-wordmark: "Noto Sans Display ExtraCondensed", Impact, "Arial Narrow", sans-serif;

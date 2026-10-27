@@ -1,11 +1,7 @@
 /*
- * Home "Capabilities explorer" (#home-services). Mockup L264-266 (base),
- * L6685-6820 (full-bleed stage), L9075-9102 (availability labels) and the
- * dark-theme overrides, read as computed values from the rendered mockup at
- * 15 viewports (AUDIT R1). Breakpoints are the mockup's own: 980 and 620.
- *
- * `position: sticky` on the stage needs no ancestor with `overflow` (AUDIT R5),
- * so nothing between .bs-cap-stage and <body> sets one.
+ * Home "Capabilities" (#home-services): bento grid of 8 cards. The live card
+ * (POS & Retail) is the 2x2 feature with its photo; the active card glows and
+ * fades in its photo and description. Breakpoints: 980 (2 columns) and 620 (1).
  */
 .bs-cap {
   position: relative;
@@ -21,271 +17,393 @@
   }
 }
 
-.bs-cap-explorer {
+/* ---- Grid ---- */
+.bs-cap-grid {
   display: grid;
-  grid-template-columns: 0.78fr 1.22fr;
-  gap: 42px;
-  align-items: start;
-  margin-top: 42px;
-}
-
-@media (max-width: 980px) {
-  .bs-cap-explorer {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ---- Menu: 8 numbered rows ---- */
-.bs-cap-menu {
-  margin: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* Fixed rows: opening a card's description never resizes the grid */
+  grid-auto-rows: 224px;
+  gap: 20px;
+  margin: 42px 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--color-stroke);
 }
 
-.bs-cap-menu > li {
-  display: block;
-  margin: 0;
-  padding: 0;
+.bs-cap-grid > :nth-child(1) {
+  grid-column: span 2;
+  grid-row: span 2;
 }
 
-/* <h3> wrapper around the row button (headings may not live inside buttons) */
-.bs-cap-row-heading {
-  margin: 0;
-  font: inherit;
-  letter-spacing: normal;
+.bs-cap-grid > :nth-child(2) {
+  grid-column: span 2;
 }
 
-.bs-cap-row {
-  display: grid;
-  grid-template-columns: 54px 1fr 36px;
-  align-items: center;
-  gap: 12px;
-  box-sizing: border-box;
-  width: 100%;
-  margin: 0;
-  padding: 20px 5px;
-  border: 0;
-  border-bottom: 1px solid var(--color-stroke);
-  background: none;
-  color: var(--color-title);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.bs-cap-row:hover,
-.bs-cap-row[data-active] {
-  padding-left: 12px;
-  color: var(--color-blue-light);
-}
-
-.bs-cap-row:focus-visible {
-  outline: 2px solid var(--color-blue-interactive);
-  outline-offset: -2px;
-}
-
-.bs-cap-num {
-  color: #8d8d8d;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: normal;
-}
-
-.bs-cap-row-title {
-  color: var(--color-title);
-  font-family: var(--font-serif);
-  font-size: clamp(20px, 2.1vw, 30px);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.04em;
-}
-
-.bs-cap-arrow {
-  font-size: 22px;
-  line-height: 1.6;
-  transition: 0.25s;
-}
-
-.bs-cap-row[data-active] .bs-cap-arrow {
-  transform: translateX(5px);
-}
-
-/*
- * "AVAILABLE" / "COMING SOON". The mockup draws these as ::after on the row,
- * which auto-places as a 4th grid item in row 2, column 1 (under the number).
- * A real element keeps that exact placement and is readable by assistive tech.
- * content-box on purpose: the mockup's pseudo-element is not border-box, and
- * the 54px column only fits "COMING SOON" on two lines because of it.
- */
-.bs-cap-status {
-  box-sizing: content-box;
-  display: block;
-  /* auto: stops the item stretching to the column, as in the mockup */
-  margin-right: 12px;
-  margin-left: auto;
-  color: #6385b5;
-  font-family: var(--font-sans);
-  font-size: 8px;
-  font-weight: 800;
-  line-height: 8px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.bs-cap-status[data-available] {
-  padding: 5px 8px;
-  border-radius: 999px;
-  background: var(--color-accent-aa);
-  color: #fff;
-}
-
-@media (max-width: 620px) {
-  .bs-cap-row {
-    grid-template-columns: 40px 1fr 24px;
-  }
-
-  .bs-cap-status {
-    display: none;
-  }
-}
-
-/* ---- Stage: sticky full-bleed image card ---- */
-.bs-cap-stage {
-  position: sticky;
-  top: 112px;
-  box-sizing: border-box;
-  min-height: 515px;
-  padding: 12px;
-  overflow: hidden;
-  border-radius: 30px;
-}
-
-.bs-cap-window {
+/* ---- Card ---- */
+.bs-cap-card {
+  --bs-cap-pad: 30px;
   position: relative;
-  height: 491px;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: var(--bs-cap-pad);
   overflow: hidden;
-  border-radius: 24px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 26px;
+  background: linear-gradient(180deg, #13171d 0%, #0e1116 100%);
+  color: var(--color-title);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-/*
- * All eight slides are mounted and stacked, so every image is already in the
- * DOM (and lazy-loaded with the section) before it is first shown; swapping is
- * a visibility flip, never a src assignment (AUDIT R10, §4.13 #6). `visibility`
- * rather than `display:none`, because a display:none <img loading=lazy> is
- * never fetched.
- */
-.bs-cap-slide {
+.bs-cap-card[data-active] {
+  border-color: rgba(54, 127, 255, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(54, 127, 255, 0.18),
+    0 0 42px rgba(13, 101, 255, 0.3);
+}
+
+/* Auto peek: a softer version of the active glow */
+.bs-cap-card[data-peek] {
+  border-color: rgba(54, 127, 255, 0.45);
+  box-shadow: 0 0 30px rgba(13, 101, 255, 0.18);
+}
+
+.bs-cap-card:has(.bs-cap-card-hit:focus-visible) {
+  outline: 2px solid var(--color-blue-interactive);
+  outline-offset: 3px;
+}
+
+/* Photo: always on for the live card, faded in on the active card */
+.bs-cap-card-media {
   position: absolute;
   inset: 0;
-  visibility: hidden;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
 }
 
-.bs-cap-slide[data-active] {
-  visibility: visible;
-}
-
-.bs-cap-image {
+.bs-cap-card-media img {
   display: block;
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   width: 100%;
-  max-width: 100%;
+  max-width: none;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  border-radius: 24px;
 }
 
-/* Title + description sit on the image (mockup L6727-6760) */
-.bs-cap-copy {
+.bs-cap-card-media::after {
+  content: "";
   position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 3;
-  padding: 78px 26px 24px;
-  border-radius: 0 0 24px 24px;
-  color: #fff;
+  inset: 0;
   background: linear-gradient(
     to top,
-    rgba(25, 28, 32, 0.88) 0%,
-    rgba(25, 28, 32, 0.64) 46%,
-    rgba(25, 28, 32, 0.2) 76%,
-    rgba(25, 28, 32, 0) 100%
+    rgba(8, 11, 13, 0.95) 0%,
+    rgba(8, 11, 13, 0.72) 38%,
+    rgba(8, 11, 13, 0.22) 72%,
+    rgba(8, 11, 13, 0.08) 100%
   );
-  pointer-events: none;
 }
 
-.bs-cap-copy-title {
-  margin: 0 0 8px;
-  color: #fff;
-  font-family: var(--font-serif);
-  font-size: 30px;
-  font-weight: 400;
+.bs-cap-card[data-live] .bs-cap-card-media,
+.bs-cap-card[data-active] .bs-cap-card-media,
+.bs-cap-card[data-peek] .bs-cap-card-media {
+  opacity: 1;
+}
+
+/* ---- Top row: icon / status pill / arrow ---- */
+.bs-cap-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bs-cap-icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  background: rgba(8, 11, 13, 0.6);
+  color: var(--color-blue-interactive);
+  transition: opacity 0.3s ease;
+}
+
+/* The icon steps aside so the photo and description have the card */
+.bs-cap-card[data-active] .bs-cap-icon,
+.bs-cap-card[data-peek] .bs-cap-icon {
+  opacity: 0;
+}
+
+.bs-cap-icon svg,
+.bs-cap-pill svg,
+.bs-cap-cta svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bs-cap-pill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: 1px solid var(--color-stroke);
+  border-radius: 999px;
+  background: rgba(8, 11, 13, 0.55);
+  color: #7f8894;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
 }
 
-.bs-cap-copy-text {
-  max-width: 92%;
+.bs-cap-pill[data-live] {
+  padding: 7px 16px 7px 12px;
+  border-color: rgba(54, 127, 255, 0.45);
+  background: rgba(6, 16, 34, 0.72);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+}
+
+.bs-cap-pill-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--color-blue-interactive);
+  box-shadow: 0 0 0 3px rgba(54, 127, 255, 0.25);
+}
+
+/* ---- Body: number, title, description (pinned to the card's bottom) ---- */
+.bs-cap-card-body {
+  position: absolute;
+  right: var(--bs-cap-pad);
+  bottom: var(--bs-cap-pad);
+  left: var(--bs-cap-pad);
+}
+
+.bs-cap-num {
+  display: block;
+  margin-bottom: 4px;
+  color: #8a94a1;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.bs-cap-card-title {
   margin: 0;
-  color: rgba(255, 255, 255, 0.92);
-  font-size: 15px;
+  color: #dfe4ea;
+  font-family: var(--font-heading);
+  font-size: clamp(19px, 1.75vw, 24px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  transition: color 0.3s ease;
+}
+
+.bs-cap-card[data-active] .bs-cap-card-title,
+.bs-cap-card[data-peek] .bs-cap-card-title {
+  color: #fff;
+}
+
+.bs-cap-card[data-live] .bs-cap-card-title {
+  color: #fff;
+  font-size: clamp(32px, 3.6vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* The title control covers the whole card (stretched link/button) */
+.bs-cap-card-hit {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bs-cap-card-hit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+}
+
+.bs-cap-card-hit:focus-visible {
+  outline: none;
+}
+
+/* Description: always shown on the live card, opens on the active card */
+.bs-cap-card-copy {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.4s ease,
+    opacity 0.35s ease;
+}
+
+.bs-cap-card-copy > p {
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-sans);
+  font-size: 14px;
   line-height: 1.5;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.28);
 }
 
+.bs-cap-card[data-active] .bs-cap-card-copy,
+.bs-cap-card[data-peek] .bs-cap-card-copy,
+.bs-cap-card[data-live] .bs-cap-card-copy {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.bs-cap-card[data-active] .bs-cap-card-copy > p,
+.bs-cap-card[data-peek] .bs-cap-card-copy > p {
+  display: -webkit-box;
+  padding-top: 8px;
+  font-size: 13px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.bs-cap-card[data-live] .bs-cap-card-copy > p {
+  display: block;
+  max-width: 540px;
+  padding-top: 14px;
+  font-size: 16px;
+}
+
+/* ---- Live card CTA: revealed while the pointer is on the card (or keyboard focus) ---- */
+.bs-cap-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 11px 14px 11px 20px;
+  border-radius: 999px;
+  background: #fff;
+  color: #0b0e12;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease;
+}
+
+.bs-cap-cta svg {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.35s ease;
+}
+
+.bs-cap-card[data-live]:hover .bs-cap-cta,
+.bs-cap-card[data-live]:focus-within .bs-cap-cta {
+  opacity: 1;
+  transform: none;
+  box-shadow: 0 8px 26px rgba(13, 101, 255, 0.35);
+}
+
+.bs-cap-card[data-live]:hover .bs-cap-cta svg {
+  transform: translateX(3px);
+}
+
+.bs-cap-card[data-live]:hover .bs-cap-card-media img {
+  transform: scale(1.04);
+}
+
+/* Touch screens have no hover: keep the CTA visible */
+@media (hover: none) {
+  .bs-cap-cta {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Tablet: 2 columns ---- */
 @media (max-width: 980px) {
-  .bs-cap-stage {
-    top: auto;
-    min-height: 440px;
-    padding: 10px;
+  .bs-cap-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
   }
 
-  .bs-cap-window {
-    height: 420px;
-  }
-
-  .bs-cap-copy {
-    padding: 64px 22px 20px;
+  .bs-cap-card {
+    --bs-cap-pad: 24px;
   }
 }
 
+/* ---- Phone: 1 column ---- */
 @media (max-width: 620px) {
-  .bs-cap-stage {
-    min-height: 400px;
-    padding: 8px;
+  .bs-cap-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: 200px;
+    gap: 14px;
+    margin-top: 32px;
   }
 
-  .bs-cap-window {
-    height: 384px;
-    border-radius: 20px;
+  .bs-cap-grid > :nth-child(1),
+  .bs-cap-grid > :nth-child(2) {
+    grid-column: auto;
   }
 
-  .bs-cap-image {
-    border-radius: 20px;
+  .bs-cap-card {
+    --bs-cap-pad: 22px;
+    border-radius: 22px;
   }
 
-  .bs-cap-copy {
-    padding: 56px 18px 18px;
-    border-radius: 0 0 20px 20px;
+  .bs-cap-icon {
+    width: 48px;
+    height: 48px;
   }
 
-  .bs-cap-copy-title {
-    font-size: 24px;
-  }
-
-  .bs-cap-copy-text {
-    max-width: 100%;
+  .bs-cap-cta {
+    margin-top: 14px;
     font-size: 13px;
+  }
+
+  .bs-cap-pill {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bs-cap-row,
-  .bs-cap-arrow {
+  .bs-cap-card,
+  .bs-cap-card-media,
+  .bs-cap-icon,
+  .bs-cap-card-title,
+  .bs-cap-card-copy,
+  .bs-cap-card-media img,
+  .bs-cap-cta,
+  .bs-cap-cta svg {
     transition: none;
   }
 }

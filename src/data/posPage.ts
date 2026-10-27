@@ -33,7 +33,7 @@ export const POS_SHOWCASE = {
       id: "speed",
       title: "Built for speed",
       copy: "Keep checkout workflows focused and responsive when the counter gets busy.",
-      video: "/media/videos/pos-speed-card-v1.mp4",
+      video: "/media/videos/pos-speed-card-v2.mp4",
       poster: "/media/posters/pos-speed-card-v1.jpg",
     },
     {

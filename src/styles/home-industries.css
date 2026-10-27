@@ -123,41 +123,90 @@
   transition-delay: 0.1s;
 }
 
+/* Pill with a round arrow badge. Resting: glassy outline, arrow tilted up-right.
+   Active row / hover: blue fill, glow, arrow turns to point right and nudges forward. */
 .bs-ind-explore {
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 3px;
-  padding: 8px 0 8px 6px;
-  border: 0;
-  background: none;
+  gap: 12px;
+  padding: 6px 6px 6px 20px;
+  overflow: hidden;
+  border: 1px solid rgba(127, 176, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
   color: #eff5ff;
   font-family: var(--font-sans);
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.2;
-  letter-spacing: 0;
+  letter-spacing: -0.01em;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 0.3s ease;
+  isolation: isolate;
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    color 0.35s ease;
 }
 
-.bs-ind-explore span {
-  color: inherit;
-  font: inherit;
-  font-size: 18px;
-  font-weight: 500;
-  transition: transform 0.28s ease;
+/* Blue fill, revealed by fading in so the pill does not jump */
+.bs-ind-explore::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(135deg, var(--color-blue-deep) 0%, var(--color-blue-primary) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
 
-.bs-ind-row[data-active] .bs-ind-explore {
+.bs-ind-explore-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(127, 176, 255, 0.14);
   color: var(--color-blue-light);
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
-.bs-ind-row[data-active] .bs-ind-explore span {
-  transform: translate(2px, -2px);
+.bs-ind-explore-icon svg {
+  transform: rotate(-45deg);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bs-ind-row[data-active] .bs-ind-explore,
+.bs-ind-explore:hover {
+  border-color: rgba(127, 176, 255, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    0 8px 26px rgba(13, 101, 255, 0.35);
+  color: #fff;
+}
+
+.bs-ind-row[data-active] .bs-ind-explore::before,
+.bs-ind-explore:hover::before {
+  opacity: 1;
+}
+
+.bs-ind-row[data-active] .bs-ind-explore-icon,
+.bs-ind-explore:hover .bs-ind-explore-icon {
+  background: #fff;
+  color: var(--color-blue-primary);
+}
+
+.bs-ind-row[data-active] .bs-ind-explore-icon svg,
+.bs-ind-explore:hover .bs-ind-explore-icon svg {
+  transform: rotate(0deg) translateX(1px);
 }
 
 .bs-ind-trigger:focus-visible,
@@ -165,6 +214,11 @@
   outline: 2px solid var(--color-blue-light);
   outline-offset: 6px;
   border-radius: 4px;
+}
+
+.bs-ind-explore:focus-visible {
+  outline-offset: 4px;
+  border-radius: 999px;
 }
 
 /* Desktop floating photo: follows the active row, crossfades between two layers. */
@@ -312,12 +366,14 @@
   }
 
   .bs-ind-explore {
-    padding-left: 2px;
-    font-size: 14px;
+    gap: 9px;
+    padding: 4px 4px 4px 14px;
+    font-size: 13px;
   }
 
-  .bs-ind-explore span {
-    font-size: 14px;
+  .bs-ind-explore-icon {
+    width: 26px;
+    height: 26px;
   }
 
   .bs-ind-panel-inner p {
@@ -331,7 +387,9 @@
   .bs-ind-panel,
   .bs-ind-panel-inner p,
   .bs-ind-explore,
-  .bs-ind-explore span,
+  .bs-ind-explore::before,
+  .bs-ind-explore-icon,
+  .bs-ind-explore-icon svg,
   .bs-ind-inline,
   .bs-ind-inline img,
   .bs-ind-preview,

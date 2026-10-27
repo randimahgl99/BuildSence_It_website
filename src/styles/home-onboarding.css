@@ -224,11 +224,11 @@
 .bs-onboard-step-title {
   margin: 0 0 13px;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(21px, 2vw, 25px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
 }
 
 .bs-onboard-step-copy {

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
@@ -18,11 +18,12 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const manrope = Manrope({
+// Headings. 500 is the display weight; 600/700/800 cover the bolder small headings.
+const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
-  variable: "--font-manrope",
+  variable: "--font-poppins",
 });
 
 // Every route sets its own title/description/canonical/openGraph via pageMetadata()
@@ -66,7 +67,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${manrope.variable}`}
+      className={`${inter.variable} ${poppins.variable}`}
     >
       <body>
         <a className="bs-skip-link" href="#main-content">

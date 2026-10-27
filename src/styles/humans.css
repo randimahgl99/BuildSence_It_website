@@ -1,7 +1,7 @@
 /*
  * Humans page (mockup `#buildsense-humans-scoped-styles` L13119-13168). Values are
  * the resolved result of the cascade, read from the rendered mockup (AUDIT R1).
- * The H1 is Georgia (not loaded; system serif), as in the mockup.
+ * The H1 is Poppins (--font-heading).
  * Breakpoints: 900 (2 columns), 600 (1 column).
  *
  * Not ported (dead in the rendered mockup): the `bsHumanEntry` card keyframe
@@ -28,13 +28,13 @@
 .bs-humans-hero h1 {
   margin: 0;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(54px, 6.8vw, 96px);
-  font-weight: 400;
+  font-weight: 500;
   /* The mockup's generic `main > .page h1` rule (line-height 1.06, letter-spacing
      -.058em !important) out-specifies the page's own .99 / -.055em / -.048em */
-  line-height: 1.06;
-  letter-spacing: -0.058em;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 
 .bs-humans-hero h1 span {
@@ -62,61 +62,14 @@
   margin-top: 28px;
 }
 
-/* Dark reference-CTA surface (mockup `.btn.bs-ref-motion-cta`, effective values), light fill on hover */
-.bs-humans-add {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  min-height: 43px;
-  padding: 0 19px;
-  border: 1px solid var(--color-stroke);
-  border-radius: 16px;
-  background: var(--color-card);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.055),
-    0 3px 14px rgba(0, 0, 0, 0.12);
-  color: #f6f6f6;
-  font-family: var(--font-sans);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background-color 0.3s var(--ease-reveal),
-    color 0.3s var(--ease-reveal),
-    border-color 0.3s var(--ease-reveal),
-    box-shadow 0.3s var(--ease-reveal);
-}
-
-.bs-humans-add:hover,
-.bs-humans-add:focus-visible {
-  border-color: var(--color-cta-hover-bg);
-  background: var(--color-cta-hover-bg);
-  box-shadow: var(--shadow-cta-glow);
-  color: var(--color-cta-hover-text);
-}
-
-.bs-humans-add:focus-visible {
-  outline: 2px solid #8edcc0;
-  outline-offset: 3px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bs-humans-add {
-    transition: none;
-  }
-}
-
 .bs-humans-search-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  width: 225px;
+  gap: 10px;
+  width: 360px;
   max-width: 100%;
-  height: 43px;
-  padding: 0 13px;
+  height: 48px;
+  padding: 0 18px;
   border: 1px solid var(--color-stroke);
   border-radius: 16px;
   background: rgba(14, 20, 29, 0.42);
@@ -131,13 +84,13 @@
 .bs-humans-search-wrap input {
   width: 100%;
   min-width: 0;
-  /* Browser-default input padding (Tailwind's reset zeroes it) and the dark-theme field fill */
   padding: 1px 2px;
   border: 0;
   outline: 0;
-  background: #0e141d;
+  /* Transparent so the field reads as one surface with its wrapper */
+  background: transparent;
   color: var(--color-title);
-  font: 13px var(--font-sans);
+  font: 14px var(--font-sans);
 }
 
 .bs-humans-search-wrap input::placeholder {
@@ -223,11 +176,11 @@
 .bs-humans-member h2 {
   margin: 0;
   color: var(--color-title);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 
 .bs-humans-member p {
@@ -280,7 +233,7 @@
   }
 
   .bs-humans-search-wrap {
-    width: min(100%, 240px);
+    width: 100%;
   }
 
   .bs-humans-grid {

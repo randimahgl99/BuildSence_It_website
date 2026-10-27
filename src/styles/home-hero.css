@@ -5,8 +5,7 @@
  *
  * Values are the resolved result of the cascade, read from the rendered mockup
  * at 24 viewports (AUDIT R1), desktop-first with the mockup's own breakpoints
- * (900 / 768 / 620 / 600). The H1 is Georgia (not loaded; system serif), as in
- * the mockup.
+ * (900 / 768 / 620 / 600). The H1 is Poppins (--font-heading).
  */
 
 /* ---- Hero shell ---- */
@@ -40,6 +39,32 @@
   pointer-events: none;
 }
 
+/* home-hero-v2.mp4 is 2048x1080 with a 1920-wide picture pillarboxed in black
+   (64px each side). On wide viewports `cover` fits the width, so the bars show;
+   zoom by 2048/1920 to push them past the section's overflow:hidden. Narrower
+   viewports already crop the sides. Drop this once the file is re-exported at 1920x1080. */
+@media (min-aspect-ratio: 16/9) {
+  .bs-home-hero-video {
+    scale: 1.0667;
+  }
+}
+
+/* Fades the video's bottom edge into the page colour so there is no hard line
+   before the next section. Separate layer so the breakpoint overlays below keep it. */
+.bs-home-hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(120px, 22vh, 220px);
+  background: linear-gradient(
+    0deg,
+    var(--color-page) 0%,
+    rgba(8, 11, 13, 0.85) 25%,
+    rgba(8, 11, 13, 0.45) 60%,
+    transparent 100%
+  );
+}
+
 .bs-home-hero-overlay {
   position: absolute;
   inset: 0;
@@ -71,11 +96,11 @@
   max-width: 1000px;
   margin: 23px 0 25px;
   color: #fff;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(46px, 5.4vw, 77px);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.058em;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   text-wrap: balance;
   text-shadow: 0 3px 34px rgba(0, 0, 0, 0.27);
 }

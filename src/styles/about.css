@@ -91,11 +91,11 @@
   max-width: 960px;
   margin: 0 auto 20px;
   color: #f5f5f4;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(52px, 7vw, 101px);
-  font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.058em;
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
 }
 
 .bs-about-hero-description {
@@ -109,11 +109,11 @@
 .bs-about-heading {
   margin: 0;
   color: #f2f2f0;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(34px, 3.5vw, 56px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.03em;
 }
 
 /* ---------- 02 Our story ---------- */
@@ -238,11 +238,6 @@
   padding: 56px 12px 88px;
 }
 
-.bs-about-team {
-  padding-top: 100px;
-  padding-bottom: 225px;
-}
-
 .bs-about-photo-figure {
   width: 100%;
   max-width: 850px;
@@ -273,10 +268,6 @@
 /* Pin the intrinsic ratio: next/image serves a resized variant whose rounded size would shift the height by a fraction of a pixel */
 .bs-about-founders .bs-about-photo-surface > img {
   aspect-ratio: 714 / 900;
-}
-
-.bs-about-team .bs-about-photo-surface > img {
-  aspect-ratio: 2048 / 1012;
 }
 
 .bs-about-photo-figure figcaption {
@@ -433,11 +424,11 @@
 .bs-about-belief-content h3 {
   margin: 0 0 14px;
   color: #eceff0;
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(27px, 3vw, 39px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
 }
 
 .bs-about-belief-content p {
@@ -490,11 +481,11 @@
 .bs-about-group-heading h3 {
   margin: 0;
   color: var(--bsa-ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-heading);
   font-size: clamp(28px, 2.9vw, 39px);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.16;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
 }
 
 .bs-about-client-grid {
@@ -783,7 +774,7 @@
 
   .bs-about-display {
     font-size: clamp(42px, 9.6vw, 64px);
-    letter-spacing: -0.05em;
+    letter-spacing: -0.03em;
   }
 
   .bs-about-story {
@@ -799,8 +790,7 @@
     font-size: 15px;
   }
 
-  .bs-about-people,
-  .bs-about-team {
+  .bs-about-people {
     padding: 80px 18px 120px;
   }
 
