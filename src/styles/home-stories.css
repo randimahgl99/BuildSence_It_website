@@ -53,9 +53,11 @@
 }
 
 /* Starts at -50% and slides to 0 (rightwards); two identical groups = seamless.
+   This keyframe animation is the no-JS fallback only: with script running,
+   MarqueeMotion sets `data-driven` and moves the track itself (iOS Safari does
+   not repaint a wide GPU-animated track, so most of the loop shows empty).
    Durations keep the mockup's ~57px/s with the shorter groups (9 cards here,
-   3 cards per group below 900px, see data/testimonials.ts): iOS Safari drops the
-   backing store of a very long animated layer and shows a blank strip. */
+   3 cards per group below 900px, see data/testimonials.ts). */
 .bs-stories-track {
   display: flex;
   width: max-content;
@@ -63,6 +65,10 @@
   transform: translate3d(-50%, 0, 0);
   will-change: transform;
   animation: clientStoriesV4Right 71s linear infinite;
+}
+
+.bs-stories-track[data-driven] {
+  animation: none;
 }
 
 /* Pause while a story is being read (mockup L11318 / L12411). Off-screen and

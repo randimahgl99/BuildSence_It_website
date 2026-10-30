@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Testimonial } from "@/data/testimonials";
+import { MarqueeMotion } from "./MarqueeMotion";
 
 // Mockup `storyCard` (L16957). Drafts (development only) keep the mockup's
 // five-star visual placeholder, tagged data-rating-status="unverified". Approved
@@ -111,12 +112,15 @@ function StoryGroup({
 }
 
 /**
- * Client-stories marquee (mockup `#clientStoriesMarqueeTrack`). Pure CSS motion,
- * so it is a Server Component: the track is two identical groups of
- * `repetitions` x stories and the keyframes slide it by exactly one group
- * (-50% -> 0, i.e. to the right) for a seamless loop. The second group is
- * aria-hidden. Pausing is CSS/MotionGate: hover and focus-within here
- * (styles/home-stories.css), off-screen and hidden-tab via MotionGate.
+ * Client-stories marquee (mockup `#clientStoriesMarqueeTrack`). The track is
+ * two identical groups of `repetitions` x stories; sliding it by exactly one
+ * group (rightwards) gives a seamless loop. The second group is aria-hidden.
+ *
+ * The cards are server-rendered here; MarqueeMotion (client) moves the track
+ * from script, because iOS Safari leaves most of a wide CSS-animated track
+ * unpainted. The CSS keyframes in styles/home-stories.css remain the no-JS
+ * fallback, with hover/focus pausing there and off-screen/hidden-tab pausing
+ * via MotionGate.
  */
 export function TestimonialMarquee({
   stories,
@@ -128,13 +132,9 @@ export function TestimonialMarquee({
   label: string;
 }) {
   return (
-    // tabIndex: the only way for keyboard users to reach the hover/focus pause
-    // (WCAG 2.2.2) and, under reduced motion, to scroll the strip.
-    <div className="bs-stories-marquee" role="group" aria-label={label} tabIndex={0} data-reveal="media">
-      <div className="bs-stories-track">
-        <StoryGroup stories={stories} repetitions={repetitions} duplicate={false} />
-        <StoryGroup stories={stories} repetitions={repetitions} duplicate />
-      </div>
-    </div>
+    <MarqueeMotion frameClassName="bs-stories-marquee" trackClassName="bs-stories-track" label={label}>
+      <StoryGroup stories={stories} repetitions={repetitions} duplicate={false} />
+      <StoryGroup stories={stories} repetitions={repetitions} duplicate />
+    </MarqueeMotion>
   );
 }
