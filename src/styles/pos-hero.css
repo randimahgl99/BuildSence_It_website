@@ -44,6 +44,22 @@
     linear-gradient(0deg, rgba(4, 9, 16, 0.55) 0%, transparent 32%, transparent 73%, rgba(4, 9, 16, 0.28) 100%);
 }
 
+/* Fades the video's bottom edge into the page colour (same as the home hero),
+   so there is no hard line before the next section */
+.bs-pos-hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(120px, 22vh, 220px);
+  background: linear-gradient(
+    0deg,
+    var(--color-page) 0%,
+    rgba(8, 11, 13, 0.85) 25%,
+    rgba(8, 11, 13, 0.45) 60%,
+    transparent 100%
+  );
+}
+
 /* The hero's own container: the navbar/logo axis (1200px, 17px gutters) */
 .bs-pos-hero-content {
   position: relative;

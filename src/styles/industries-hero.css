@@ -46,6 +46,22 @@
     linear-gradient(180deg, rgba(8, 11, 13, 0.3) 0%, rgba(8, 11, 13, 0.4) 100%);
 }
 
+/* Fades the video's bottom edge into the page colour (same as the home hero),
+   so there is no hard line before the next section */
+.bs-ind-hero-overlay::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: clamp(120px, 22vh, 220px);
+  background: linear-gradient(
+    0deg,
+    var(--color-page) 0%,
+    rgba(8, 11, 13, 0.85) 25%,
+    rgba(8, 11, 13, 0.45) 60%,
+    transparent 100%
+  );
+}
+
 /* Width comes from .bs-ind-container; auto margins centre it in the flex hero */
 .bs-ind-hero-inner {
   position: relative;

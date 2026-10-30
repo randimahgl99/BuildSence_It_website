@@ -185,6 +185,7 @@ export function CapabilityExplorer({ items }: CapabilityExplorerProps) {
             data-active={isActive ? "" : undefined}
             data-peek={peeks.includes(index) && !isActive ? "" : undefined}
             data-live={live ? "" : undefined}
+            data-tone={item.icon}
             data-reveal="card"
             onPointerEnter={(event: PointerEvent) => {
               if (event.pointerType !== "touch") setActive(index);

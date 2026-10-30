@@ -41,6 +41,8 @@
 /* ---- Card ---- */
 .bs-cap-card {
   --bs-cap-pad: 30px;
+  /* Accent as "r, g, b" so it works inside rgba(); set per card by data-tone */
+  --bs-cap-accent: 54, 127, 255;
   position: relative;
   isolation: isolate;
   display: flex;
@@ -50,26 +52,53 @@
   margin: 0;
   padding: var(--bs-cap-pad);
   overflow: hidden;
-  border: 1px solid var(--color-stroke);
-  border-radius: 26px;
-  background: linear-gradient(180deg, #13171d 0%, #0e1116 100%);
+  border: 1px solid rgba(var(--bs-cap-accent), 0.22);
+  /* Square corners */
+  border-radius: 0;
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(var(--bs-cap-accent), 0.16) 0%, transparent 60%),
+    radial-gradient(90% 70% at 100% 100%, rgba(var(--bs-cap-accent), 0.08) 0%, transparent 70%),
+    linear-gradient(180deg, #13171d 0%, #0e1116 100%);
   color: var(--color-title);
   transition:
     border-color 0.35s ease,
     box-shadow 0.35s ease;
 }
 
+/* One colour per Coming soon card (the live card keeps the brand blue) */
+.bs-cap-card[data-tone="mobile"] {
+  --bs-cap-accent: 34, 211, 238; /* cyan */
+}
+.bs-cap-card[data-tone="code"] {
+  --bs-cap-accent: 167, 139, 250; /* violet */
+}
+.bs-cap-card[data-tone="ai"] {
+  --bs-cap-accent: 244, 114, 182; /* pink */
+}
+.bs-cap-card[data-tone="chart"] {
+  --bs-cap-accent: 251, 191, 36; /* amber */
+}
+.bs-cap-card[data-tone="cloud"] {
+  --bs-cap-accent: 96, 165, 250; /* sky blue */
+}
+.bs-cap-card[data-tone="shield"] {
+  --bs-cap-accent: 52, 211, 153; /* emerald */
+}
+.bs-cap-card[data-tone="globe"] {
+  --bs-cap-accent: 251, 146, 60; /* orange */
+}
+
 .bs-cap-card[data-active] {
-  border-color: rgba(54, 127, 255, 0.7);
+  border-color: rgba(var(--bs-cap-accent), 0.7);
   box-shadow:
-    0 0 0 1px rgba(54, 127, 255, 0.18),
-    0 0 42px rgba(13, 101, 255, 0.3);
+    0 0 0 1px rgba(var(--bs-cap-accent), 0.18),
+    0 0 42px rgba(var(--bs-cap-accent), 0.3);
 }
 
 /* Auto peek: a softer version of the active glow */
 .bs-cap-card[data-peek] {
-  border-color: rgba(54, 127, 255, 0.45);
-  box-shadow: 0 0 30px rgba(13, 101, 255, 0.18);
+  border-color: rgba(var(--bs-cap-accent), 0.45);
+  box-shadow: 0 0 30px rgba(var(--bs-cap-accent), 0.18);
 }
 
 .bs-cap-card:has(.bs-cap-card-hit:focus-visible) {
@@ -129,10 +158,11 @@
   place-items: center;
   width: 56px;
   height: 56px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(var(--bs-cap-accent), 0.32);
   border-radius: 50%;
-  background: rgba(8, 11, 13, 0.6);
-  color: var(--color-blue-interactive);
+  background: rgba(var(--bs-cap-accent), 0.12);
+  color: rgb(var(--bs-cap-accent));
+  box-shadow: 0 0 24px rgba(var(--bs-cap-accent), 0.18);
   transition: opacity 0.3s ease;
 }
 
@@ -158,10 +188,10 @@
   align-items: center;
   gap: 7px;
   padding: 7px 14px;
-  border: 1px solid var(--color-stroke);
+  border: 1px solid rgba(var(--bs-cap-accent), 0.3);
   border-radius: 999px;
   background: rgba(8, 11, 13, 0.55);
-  color: #7f8894;
+  color: rgba(var(--bs-cap-accent), 0.9);
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 500;
@@ -198,7 +228,7 @@
 .bs-cap-num {
   display: block;
   margin-bottom: 4px;
-  color: #8a94a1;
+  color: rgb(var(--bs-cap-accent));
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 500;
@@ -376,7 +406,6 @@
 
   .bs-cap-card {
     --bs-cap-pad: 22px;
-    border-radius: 22px;
   }
 
   .bs-cap-icon {
