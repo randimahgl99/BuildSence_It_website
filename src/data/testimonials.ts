@@ -52,10 +52,7 @@ export const CLIENT_STORIES_FALLBACK = {
  * Repetitions are derived from the story count, so 1 or 12 approved stories
  * still loop seamlessly.
  *
- * Keep this small. The track (two groups) is one GPU-animated layer; the
- * mockup's 15 made it ~10,000px x 365px, which on iOS Safari (3x screens)
- * exceeds the per-layer backing-store budget and renders blank. Phones and
- * tablets hide all but the first 3 cards per group (styles/home-stories.css).
+ * Keep this small: the track (two groups) is one wide moving layer.
  */
 const MIN_CARDS_PER_GROUP = 9;
 

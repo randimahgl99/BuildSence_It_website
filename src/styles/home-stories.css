@@ -56,8 +56,8 @@
    This keyframe animation is the no-JS fallback only: with script running,
    MarqueeMotion sets `data-driven` and moves the track itself (iOS Safari does
    not repaint a wide GPU-animated track, so most of the loop shows empty).
-   Durations keep the mockup's ~57px/s with the shorter groups (9 cards here,
-   3 cards per group below 900px, see data/testimonials.ts). */
+   Durations keep the mockup's ~57px/s with 9-card groups (data/testimonials.ts).
+   Card widths: see .bs-story-card (WebKit max-content sizing). */
 .bs-stories-track {
   display: flex;
   width: max-content;
@@ -91,9 +91,13 @@
   padding-right: 24px;
 }
 
+/* Size with `width`, not only flex-basis: WebKit (all iOS browsers) sizes a
+   max-content flex row from each card's unwrapped text otherwise, so every
+   card claims ~1200px and the strip shows long empty gaps. */
 .bs-story-card {
   display: flex;
-  flex: 0 0 430px;
+  flex: 0 0 auto;
+  width: 430px;
   flex-direction: column;
   min-height: 390px;
   padding: 32px 32px 28px;
@@ -232,7 +236,7 @@
   }
 
   .bs-stories-track {
-    animation-duration: 22s;
+    animation-duration: 64s;
   }
 
   .bs-story-group {
@@ -240,15 +244,8 @@
     padding-right: 20px;
   }
 
-  /* 3 cards per group (one copy of each story) still spans any tablet/phone
-     width, and keeps the animated layer small enough for iOS Safari. The hidden
-     ones are the aria-hidden repeat copies, so nothing changes for assistive tech. */
-  .bs-story-group > :nth-child(n + 4) {
-    display: none;
-  }
-
   .bs-story-card {
-    flex-basis: 390px;
+    width: 390px;
     min-height: 380px;
     padding: 28px 27px 25px;
   }
@@ -275,7 +272,7 @@
   }
 
   .bs-stories-track {
-    animation-duration: 19s;
+    animation-duration: 56s;
   }
 
   .bs-story-group {
@@ -284,7 +281,7 @@
   }
 
   .bs-story-card {
-    flex-basis: min(86vw, 360px);
+    width: min(86vw, 360px);
     min-height: 365px;
     padding: 25px 22px 22px;
     border-radius: 21px;
