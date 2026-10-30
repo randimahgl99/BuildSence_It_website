@@ -48,11 +48,16 @@ export const CLIENT_STORIES_FALLBACK = {
 
 /**
  * The marquee needs a group at least this many cards long to fill wide screens
- * and keep the scroll speed close to the mockup (3 stories x 5 repetitions = 15).
+ * (3 stories x 3 repetitions = 9: one group spans ~4000px on desktop).
  * Repetitions are derived from the story count, so 1 or 12 approved stories
  * still loop seamlessly.
+ *
+ * Keep this small. The track (two groups) is one GPU-animated layer; the
+ * mockup's 15 made it ~10,000px x 365px, which on iOS Safari (3x screens)
+ * exceeds the per-layer backing-store budget and renders blank. Phones and
+ * tablets hide all but the first 3 cards per group (styles/home-stories.css).
  */
-const MIN_CARDS_PER_GROUP = 15;
+const MIN_CARDS_PER_GROUP = 9;
 
 export function getStoryRepetitions(storyCount: number): number {
   return Math.max(1, Math.ceil(MIN_CARDS_PER_GROUP / Math.max(1, storyCount)));

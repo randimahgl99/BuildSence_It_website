@@ -52,14 +52,17 @@
   overflow: hidden;
 }
 
-/* Starts at -50% and slides to 0 (rightwards); two identical groups = seamless. */
+/* Starts at -50% and slides to 0 (rightwards); two identical groups = seamless.
+   Durations keep the mockup's ~57px/s with the shorter groups (9 cards here,
+   3 cards per group below 900px, see data/testimonials.ts): iOS Safari drops the
+   backing store of a very long animated layer and shows a blank strip. */
 .bs-stories-track {
   display: flex;
   width: max-content;
   align-items: stretch;
   transform: translate3d(-50%, 0, 0);
   will-change: transform;
-  animation: clientStoriesV4Right 118s linear infinite;
+  animation: clientStoriesV4Right 71s linear infinite;
 }
 
 /* Pause while a story is being read (mockup L11318 / L12411). Off-screen and
@@ -223,12 +226,19 @@
   }
 
   .bs-stories-track {
-    animation-duration: 108s;
+    animation-duration: 22s;
   }
 
   .bs-story-group {
     gap: 20px;
     padding-right: 20px;
+  }
+
+  /* 3 cards per group (one copy of each story) still spans any tablet/phone
+     width, and keeps the animated layer small enough for iOS Safari. The hidden
+     ones are the aria-hidden repeat copies, so nothing changes for assistive tech. */
+  .bs-story-group > :nth-child(n + 4) {
+    display: none;
   }
 
   .bs-story-card {
@@ -259,7 +269,7 @@
   }
 
   .bs-stories-track {
-    animation-duration: 96s;
+    animation-duration: 19s;
   }
 
   .bs-story-group {
